@@ -2,14 +2,14 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Exploradores Digitales</title>
+<title>Exploradores Digitales - Mapa</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: linear-gradient(#08131f, #000);
+  background: linear-gradient(#07141f, #000);
   color: white;
   text-align: center;
 }
@@ -17,15 +17,14 @@ body {
 .screen {
   display: none;
   min-height: 100vh;
-  padding: 30px;
+  padding: 20px;
 }
 
 .active {
   display: block;
 }
 
-h1 {
-  font-size: 2.8em;
+h1, h2 {
   margin-bottom: 10px;
 }
 
@@ -40,26 +39,46 @@ h1 {
 button {
   background: #00b3ff;
   border: none;
-  padding: 15px 30px;
-  font-size: 1.2em;
+  padding: 12px 25px;
+  font-size: 1em;
   border-radius: 10px;
   cursor: pointer;
-  margin-top: 20px;
+  margin: 10px;
 }
 
 button:hover {
   background: #00ffcc;
 }
 
-.option {
+.zone {
   background: #102c3d;
   border: 2px solid #00b3ff;
   padding: 15px;
-  margin: 12px auto;
+  margin: 15px auto;
+  max-width: 350px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.zone:hover {
+  background: #00b3ff;
+  color: black;
+}
+
+.zone.completed {
+  background: #00ff99;
+  border-color: #00ff99;
+  color: black;
+}
+
+.option {
+  background: #102c3d;
+  border: 2px solid #00b3ff;
+  padding: 12px;
+  margin: 10px auto;
   max-width: 400px;
   border-radius: 10px;
   cursor: pointer;
-  transition: 0.2s;
 }
 
 .option:hover {
@@ -87,55 +106,98 @@ button:hover {
 <div id="startScreen" class="screen active">
   <div class="box">
     <h1>Exploradores Digitales</h1>
-    <p>Un juego sobre decisiones, cuidado y sabiduría en el mundo digital</p>
-    <button onclick="startGame()">Comenzar Aventura</button>
+    <p>Recorré el mapa y tomá decisiones sabias en cada zona</p>
+    <button onclick="goToMap()">Ver Mapa</button>
   </div>
 </div>
 
 <!-- PANTALLA 2 -->
-<div id="gameScreen" class="screen">
+<div id="mapScreen" class="screen">
   <div class="box">
-    <h2>🏰 Torre Digital</h2>
-    <p>Elegí cómo actuar en este entorno virtual</p>
-
-    <div class="option" onclick="choose(this, 10)">
-      ✔ Ayudo a un compañero que recibió un mensaje incómodo
-    </div>
-
-    <div class="option negative" onclick="choose(this, -10)">
-      ❌ Me burlo o comparto el mensaje con otros
-    </div>
-
-    <div class="option" onclick="choose(this, 10)">
-      ✔ Le cuento a un adulto lo que pasó
-    </div>
-
-    <div class="option negative" onclick="choose(this, -10)">
-      ❌ Ignoro la situación y sigo jugando como si nada
-    </div>
-
+    <h2>🗺️ Mapa Digital</h2>
     <p>Puntaje: <span id="score">0</span></p>
 
-    <button onclick="finishGame()">Finalizar Misión</button>
+    <div class="zone" onclick="openZone(1)" id="zone1">
+      🏕️ Zona 1 — Bosque de Mensajes
+    </div>
+
+    <div class="zone" onclick="openZone(2)" id="zone2">
+      🏰 Zona 2 — Torre Digital
+    </div>
+
+    <div class="zone" onclick="openZone(3)" id="zone3">
+      🌆 Zona 3 — Ciudad Virtual
+    </div>
+
+    <button onclick="finishGame()">Finalizar Exploración</button>
   </div>
 </div>
 
 <!-- PANTALLA 3 -->
+<div id="zoneScreen" class="screen">
+  <div class="box">
+    <h2 id="zoneTitle"></h2>
+    <p id="zoneText"></p>
+
+    <div class="option" onclick="choose(this, 10)">
+      ✔ Actúo con respeto y busco ayuda si es necesario
+    </div>
+
+    <div class="option negative" onclick="choose(this, -10)">
+      ❌ Ignoro los riesgos y sigo sin pensar
+    </div>
+
+    <button onclick="backToMap()">Volver al Mapa</button>
+  </div>
+</div>
+
+<!-- PANTALLA 4 -->
 <div id="endScreen" class="screen">
   <div class="box">
-    <h2>🌟 Resultado de tu Exploración</h2>
+    <h2>🌟 Resultado Final</h2>
     <p id="finalText"></p>
-    <p>Puntaje final: <span id="finalScore"></span></p>
-    <button onclick="restart()">Volver a Jugar</button>
+    <p>Puntaje total: <span id="finalScore"></span></p>
+    <button onclick="restart()">Comenzar de Nuevo</button>
   </div>
 </div>
 
 <script>
 let score = 0;
+let currentZone = 0;
+let completedZones = {};
 
-function startGame() {
+const zoneData = {
+  1: {
+    title: "🏕️ Bosque de Mensajes",
+    text: "Recibís un mensaje extraño de alguien que no conocés. ¿Qué hacés?"
+  },
+  2: {
+    title: "🏰 Torre Digital",
+    text: "Un amigo quiere compartir algo que puede lastimar a otros. ¿Cómo reaccionás?"
+  },
+  3: {
+    title: "🌆 Ciudad Virtual",
+    text: "Ves contenido que te incomoda. ¿Cuál es tu decisión?"
+  }
+};
+
+function goToMap() {
   document.getElementById("startScreen").classList.remove("active");
-  document.getElementById("gameScreen").classList.add("active");
+  document.getElementById("mapScreen").classList.add("active");
+}
+
+function openZone(zone) {
+  currentZone = zone;
+
+  document.getElementById("zoneTitle").innerText = zoneData[zone].title;
+  document.getElementById("zoneText").innerText = zoneData[zone].text;
+
+  document.querySelectorAll(".option").forEach(opt => {
+    opt.classList.remove("selected");
+  });
+
+  document.getElementById("mapScreen").classList.remove("active");
+  document.getElementById("zoneScreen").classList.add("active");
 }
 
 function choose(element, points) {
@@ -144,17 +206,25 @@ function choose(element, points) {
   element.classList.add("selected");
   score += points;
   document.getElementById("score").innerText = score;
+
+  completedZones[currentZone] = true;
+  document.getElementById("zone" + currentZone).classList.add("completed");
+}
+
+function backToMap() {
+  document.getElementById("zoneScreen").classList.remove("active");
+  document.getElementById("mapScreen").classList.add("active");
 }
 
 function finishGame() {
-  document.getElementById("gameScreen").classList.remove("active");
+  document.getElementById("mapScreen").classList.remove("active");
   document.getElementById("endScreen").classList.add("active");
 
   document.getElementById("finalScore").innerText = score;
 
-  let text = "Tomaste decisiones sabias en tu camino digital.";
-  if (score < 0) {
-    text = "Algunas decisiones te llevaron por caminos riesgosos. Siempre podés elegir mejor.";
+  let text = "Exploraste el mundo digital con sabiduría y valentía.";
+  if (score < 10) {
+    text = "Tu camino tuvo riesgos. Recordá: siempre podés elegir protegerte y proteger a otros.";
   }
 
   document.getElementById("finalText").innerText = text;
@@ -162,10 +232,11 @@ function finishGame() {
 
 function restart() {
   score = 0;
+  completedZones = {};
   document.getElementById("score").innerText = "0";
 
-  document.querySelectorAll(".option").forEach(opt => {
-    opt.classList.remove("selected");
+  document.querySelectorAll(".zone").forEach(zone => {
+    zone.classList.remove("completed");
   });
 
   document.getElementById("endScreen").classList.remove("active");
@@ -174,4 +245,4 @@ function restart() {
 </script>
 
 </body>
-</html>
+  </html>
