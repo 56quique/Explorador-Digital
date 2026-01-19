@@ -218,6 +218,11 @@ function playClick() {
 }
 
 function unlockAudio() {
+  if (audioUnlocked) {
+    startGame();
+    return;
+  }
+
   const bg = document.getElementById("bgSound");
   const click = document.getElementById("clickSound");
 
