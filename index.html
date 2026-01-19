@@ -2,14 +2,14 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>ROFEBLOX - Exploración Digital</title>
+<title>Exploradores Digitales</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body {
   margin: 0;
-  font-family: 'Trebuchet MS', sans-serif;
-  background: linear-gradient(#0a1a2a, #000);
+  font-family: Arial, sans-serif;
+  background: linear-gradient(#08131f, #000);
   color: white;
   text-align: center;
 }
@@ -25,8 +25,16 @@ body {
 }
 
 h1 {
-  font-size: 3em;
+  font-size: 2.8em;
   margin-bottom: 10px;
+}
+
+.box {
+  background: rgba(0,0,0,0.7);
+  padding: 20px;
+  border-radius: 15px;
+  max-width: 500px;
+  margin: auto;
 }
 
 button {
@@ -35,26 +43,23 @@ button {
   padding: 15px 30px;
   font-size: 1.2em;
   border-radius: 10px;
-  color: black;
   cursor: pointer;
-  margin: 10px;
-  transition: 0.2s;
+  margin-top: 20px;
 }
 
 button:hover {
   background: #00ffcc;
-  transform: scale(1.05);
 }
 
 .option {
-  display: block;
-  background: #112f44;
+  background: #102c3d;
   border: 2px solid #00b3ff;
   padding: 15px;
-  margin: 10px auto;
+  margin: 12px auto;
   max-width: 400px;
   border-radius: 10px;
   cursor: pointer;
+  transition: 0.2s;
 }
 
 .option:hover {
@@ -68,36 +73,22 @@ button:hover {
   border-color: #00ff99;
 }
 
-.negative.selected {
+.option.negative.selected {
   background: #ff4444;
-  border-color: #ff4444;
   color: white;
-}
-
-.box {
-  background: rgba(0,0,0,0.7);
-  padding: 20px;
-  border-radius: 15px;
-  max-width: 500px;
-  margin: auto;
+  border-color: #ff4444;
 }
 </style>
 </head>
 
 <body>
 
-<!-- AUDIO -->
-<audio id="bgm" loop>
-  <source src="https://cdn.pixabay.com/audio/2022/10/16/audio_9c41d3e9c4.mp3" type="audio/mpeg">
-</audio>
-
 <!-- PANTALLA 1 -->
 <div id="startScreen" class="screen active">
   <div class="box">
-    <h1>ROFEBLOX</h1>
-    <p>Exploración y Decisión en el Mundo Digital</p>
-    <p>🎧 Activá sonido y comenzá la aventura</p>
-    <button onclick="startGame()">START</button>
+    <h1>Exploradores Digitales</h1>
+    <p>Un juego sobre decisiones, cuidado y sabiduría en el mundo digital</p>
+    <button onclick="startGame()">Comenzar Aventura</button>
   </div>
 </div>
 
@@ -105,22 +96,22 @@ button:hover {
 <div id="gameScreen" class="screen">
   <div class="box">
     <h2>🏰 Torre Digital</h2>
-    <p>Elegí cómo actuar en este mundo virtual</p>
+    <p>Elegí cómo actuar en este entorno virtual</p>
 
     <div class="option" onclick="choose(this, 10)">
-      ✔ Ayudo a un amigo a tomar una buena decisión online
+      ✔ Ayudo a un compañero que recibió un mensaje incómodo
     </div>
 
     <div class="option negative" onclick="choose(this, -10)">
-      ❌ Comparto contenido sin pensar en las consecuencias
+      ❌ Me burlo o comparto el mensaje con otros
     </div>
 
     <div class="option" onclick="choose(this, 10)">
-      ✔ Pido ayuda a un adulto cuando algo me incomoda
+      ✔ Le cuento a un adulto lo que pasó
     </div>
 
     <div class="option negative" onclick="choose(this, -10)">
-      ❌ Ignoro advertencias y sigo explorando zonas peligrosas
+      ❌ Ignoro la situación y sigo jugando como si nada
     </div>
 
     <p>Puntaje: <span id="score">0</span></p>
@@ -132,7 +123,7 @@ button:hover {
 <!-- PANTALLA 3 -->
 <div id="endScreen" class="screen">
   <div class="box">
-    <h2>🌟 Resumen de tu aventura</h2>
+    <h2>🌟 Resultado de tu Exploración</h2>
     <p id="finalText"></p>
     <p>Puntaje final: <span id="finalScore"></span></p>
     <button onclick="restart()">Volver a Jugar</button>
@@ -141,24 +132,8 @@ button:hover {
 
 <script>
 let score = 0;
-let audioStarted = false;
 
 function startGame() {
-  const audio = document.getElementById("bgm");
-
-  if (!audioStarted) {
-    audio.play().then(() => {
-      audioStarted = true;
-      showGame();
-    }).catch(() => {
-      alert("Tocá nuevamente START para habilitar sonido 🎧");
-    });
-  } else {
-    showGame();
-  }
-}
-
-function showGame() {
   document.getElementById("startScreen").classList.remove("active");
   document.getElementById("gameScreen").classList.add("active");
 }
@@ -177,9 +152,9 @@ function finishGame() {
 
   document.getElementById("finalScore").innerText = score;
 
-  let text = "Exploraste el mundo digital con sabiduría.";
+  let text = "Tomaste decisiones sabias en tu camino digital.";
   if (score < 0) {
-    text = "Tus decisiones te llevaron por caminos peligrosos. ¡Siempre podés volver a elegir bien!";
+    text = "Algunas decisiones te llevaron por caminos riesgosos. Siempre podés elegir mejor.";
   }
 
   document.getElementById("finalText").innerText = text;
@@ -199,4 +174,4 @@ function restart() {
 </script>
 
 </body>
-  </html>
+</html>
