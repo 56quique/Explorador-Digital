@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Fondo Ciudad Digital</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <style>
 html, body {
@@ -15,56 +15,22 @@ html, body {
   background: #000;
 }
 
+/* CONTENEDOR GLOBAL */
+#scene {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
 /* CIELO */
 #sky {
   position: absolute;
   width: 100%;
   height: 100%;
   background: linear-gradient(to top, #020b18 20%, #081d3a 60%, #0a2f5a 100%);
-}
-
-/* CAPA DE EDIFICIOS LEJANOS */
-.layer-back {
-  position: absolute;
-  bottom: 0;
-  width: 200%;
-  height: 25%;
-  background: repeating-linear-gradient(
-    to right,
-    #010101 0px,
-    #010101 60px,
-    #030303 60px,
-    #030303 120px
-  );
-  animation: moveSlow 60s linear infinite;
-}
-
-/* CAPA DE EDIFICIOS CERCANOS */
-.layer-front {
-  position: absolute;
-  bottom: 0;
-  width: 200%;
-  height: 35%;
-  background: repeating-linear-gradient(
-    to right,
-    #000000 0px,
-    #000000 40px,
-    #050505 40px,
-    #050505 80px
-  );
-  animation: moveFast 30s linear infinite;
-}
-
-/* LUCES DE CIUDAD */
-.lights {
-  position: absolute;
-  bottom: 0;
-  width: 200%;
-  height: 35%;
-  background-image: radial-gradient(#00ffcc 1px, transparent 1px);
-  background-size: 50px 50px;
-  opacity: 0.25;
-  animation: blink 2s infinite alternate, moveFast 30s linear infinite;
+  z-index: 1;
 }
 
 /* ESTRELLAS */
@@ -76,6 +42,54 @@ html, body {
   background-size: 80px 80px;
   opacity: 0.2;
   animation: blink 3s infinite alternate;
+  z-index: 2;
+}
+
+/* EDIFICIOS LEJANOS */
+.layer-back {
+  position: absolute;
+  bottom: 0;
+  width: 200%;
+  height: 30%;
+  background: repeating-linear-gradient(
+    to right,
+    #020202 0px,
+    #020202 70px,
+    #040404 70px,
+    #040404 140px
+  );
+  animation: moveSlow 60s linear infinite;
+  z-index: 3;
+}
+
+/* LUCES */
+.lights {
+  position: absolute;
+  bottom: 0;
+  width: 200%;
+  height: 30%;
+  background-image: radial-gradient(#00ffcc 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.3;
+  animation: blink 2s infinite alternate, moveFast 30s linear infinite;
+  z-index: 4;
+}
+
+/* EDIFICIOS CERCANOS */
+.layer-front {
+  position: absolute;
+  bottom: 0;
+  width: 200%;
+  height: 40%;
+  background: repeating-linear-gradient(
+    to right,
+    #000000 0px,
+    #000000 40px,
+    #050505 40px,
+    #050505 80px
+  );
+  animation: moveFast 30s linear infinite;
+  z-index: 5;
 }
 
 /* ANIMACIONES */
@@ -98,12 +112,13 @@ html, body {
 
 <body>
 
-<div id="sky"></div>
-<div class="stars"></div>
-
-<div class="layer-back"></div>
-<div class="lights"></div>
-<div class="layer-front"></div>
+<div id="scene">
+  <div id="sky"></div>
+  <div class="stars"></div>
+  <div class="layer-back"></div>
+  <div class="lights"></div>
+  <div class="layer-front"></div>
+</div>
 
 </body>
 </html>
