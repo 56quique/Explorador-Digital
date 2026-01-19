@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Ciudad Digital</title>
+<title>Exploradores Digitales</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <style>
@@ -22,15 +22,65 @@ html, body {
   width: 100vw;
   height: 100vh;
 }
+
+/* AVATAR */
+#avatar {
+  position: absolute;
+  bottom: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 220px;
+  animation: float 3s ease-in-out infinite;
+  z-index: 10;
+}
+
+.head {
+  width: 80px;
+  height: 80px;
+  background: #00ffcc;
+  border-radius: 50%;
+  margin: auto;
+}
+
+.body {
+  width: 60px;
+  height: 100px;
+  background: #008877;
+  margin: 10px auto 0 auto;
+  border-radius: 20px;
+}
+
+.legs {
+  display: flex;
+  justify-content: space-between;
+  width: 60px;
+  margin: auto;
+}
+
+.leg {
+  width: 20px;
+  height: 60px;
+  background: #004444;
+  border-radius: 10px;
+}
+
+/* ANIMACIÓN AVATAR */
+@keyframes float {
+  0% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, -10px); }
+  100% { transform: translate(-50%, 0); }
+}
 </style>
 </head>
 
 <body>
 
 <div id="scene">
+
+<!-- FONDO SVG -->
 <svg viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" width="100%" height="100%">
 
-  <!-- CIELO -->
   <defs>
     <linearGradient id="skyGrad" x1="0" y1="1" x2="0" y2="0">
       <stop offset="0%" stop-color="#020b18"/>
@@ -51,19 +101,7 @@ html, body {
     <circle cx="500" cy="180" r="1" fill="white"/>
     <circle cx="750" cy="160" r="1" fill="white"/>
 
-    <animateTransform
-      attributeName="transform"
-      type="translate"
-      from="0 0"
-      to="0 0"
-      dur="3s"
-      repeatCount="indefinite"/>
-    <animate
-      attributeName="opacity"
-      from="0.2"
-      to="0.6"
-      dur="2s"
-      repeatCount="indefinite"/>
+    <animate attributeName="opacity" from="0.2" to="0.6" dur="2s" repeatCount="indefinite"/>
   </g>
 
   <!-- CIUDAD LEJANA -->
@@ -75,13 +113,7 @@ html, body {
     <rect x="700" y="330" width="200" height="270" fill="#050505"/>
     <rect x="920" y="350" width="120" height="250" fill="#070707"/>
 
-    <animateTransform
-      attributeName="transform"
-      type="translate"
-      from="0 0"
-      to="-300 0"
-      dur="60s"
-      repeatCount="indefinite"/>
+    <animateTransform attributeName="transform" type="translate" from="0 0" to="-300 0" dur="60s" repeatCount="indefinite"/>
   </g>
 
   <!-- CIUDAD CERCANA -->
@@ -92,13 +124,7 @@ html, body {
     <rect x="600" y="360" width="160" height="240" fill="#030303"/>
     <rect x="800" y="380" width="220" height="220" fill="#000000"/>
 
-    <animateTransform
-      attributeName="transform"
-      type="translate"
-      from="0 0"
-      to="-500 0"
-      dur="30s"
-      repeatCount="indefinite"/>
+    <animateTransform attributeName="transform" type="translate" from="0 0" to="-500 0" dur="30s" repeatCount="indefinite"/>
   </g>
 
   <!-- LUCES -->
@@ -110,16 +136,22 @@ html, body {
     <circle cx="700" cy="440" r="2" fill="#00ffcc"/>
     <circle cx="900" cy="460" r="2" fill="#00ffcc"/>
 
-    <animate
-      attributeName="opacity"
-      from="0.2"
-      to="0.8"
-      dur="1.5s"
-      repeatCount="indefinite"/>
+    <animate attributeName="opacity" from="0.2" to="0.8" dur="1.5s" repeatCount="indefinite"/>
   </g>
 
 </svg>
+
+<!-- AVATAR -->
+<div id="avatar">
+  <div class="head"></div>
+  <div class="body"></div>
+  <div class="legs">
+    <div class="leg"></div>
+    <div class="leg"></div>
+  </div>
+</div>
+
 </div>
 
 </body>
-    </html>
+</html>
