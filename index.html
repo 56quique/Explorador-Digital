@@ -136,15 +136,17 @@ button:hover {
 <div id="game">
 
 <!-- SONIDOS -->
-<audio id="clickSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_3c1b7a6d8f.mp3"></audio>
-<audio id="bgSound" src="https://cdn.pixabay.com/audio/2022/10/25/audio_946b8c71d2.mp3" loop></audio>
+<audio id="clickSound" preload="auto"
+  src="https://cdn.pixabay.com/audio/2022/03/15/audio_3c1b7a6d8f.mp3"></audio>
+<audio id="bgSound" preload="auto" loop
+  src="https://cdn.pixabay.com/audio/2022/10/25/audio_946b8c71d2.mp3"></audio>
 
 <!-- PANTALLA INICIO -->
 <div id="startScreen" class="screen active">
   <div id="avatar">🧭</div>
   <h1>Explorador Digital</h1>
   <p>Una aventura de decisiones en el mundo digital</p>
-  <button onclick="startGame()">Comenzar</button>
+  <button onclick="unlockAudio()">Comenzar</button>
 </div>
 
 <!-- MAPA -->
@@ -163,7 +165,6 @@ button:hover {
 <div id="challengeScreen" class="screen">
   <h2 id="challengeTitle"></h2>
   <p id="challengeText"></p>
-
   <div id="challengeBox"></div>
 </div>
 
@@ -179,6 +180,7 @@ button:hover {
 <script>
 let score = 0;
 let completed = [false, false, false];
+let audioUnlocked = false;
 
 const challenges = [
   {
@@ -208,12 +210,36 @@ const challenges = [
 ];
 
 function playClick() {
-  document.getElementById("clickSound").play();
+  const click = document.getElementById("clickSound");
+  if (audioUnlocked) {
+    click.currentTime = 0;
+    click.play();
+  }
+}
+
+function unlockAudio() {
+  const bg = document.getElementById("bgSound");
+  const click = document.getElementById("clickSound");
+
+  bg.volume = 0.4;
+  click.volume = 0.7;
+
+  bg.play().then(() => {
+    bg.pause();
+    bg.currentTime = 0;
+    audioUnlocked = true;
+    startGame();
+  }).catch(() => {
+    alert("Tocá nuevamente para activar el sonido 🔊");
+  });
 }
 
 function startGame() {
   playClick();
-  document.getElementById("bgSound").play();
+  const bg = document.getElementById("bgSound");
+  if (audioUnlocked) {
+    bg.play();
+  }
   switchScreen("startScreen", "mapScreen");
 }
 
