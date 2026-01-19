@@ -310,6 +310,27 @@ function switchScreen(from, to) {
   document.getElementById(to).classList.add("active");
 }
 </script>
+<script>
+let audioUnlocked = false;
+
+function unlockAudio() {
+  const bg = document.getElementById("bgSound");
+  const click = document.getElementById("clickSound");
+
+  bg.volume = 0.4;
+  click.volume = 0.7;
+
+  bg.play().then(() => {
+    bg.pause();
+    bg.currentTime = 0;
+    audioUnlocked = true;
+    startGame();
+  }).catch(() => {
+    alert("Tocá nuevamente para activar el sonido 🔊");
+  });
+}
+</script>
 
 </body>
 </html>
+
