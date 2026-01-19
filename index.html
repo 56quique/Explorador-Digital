@@ -2,319 +2,201 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<title>ROFEBLOX - Exploración Digital</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Explorador Digital</title>
 
 <style>
-html, body {
+body {
   margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: "Trebuchet MS", sans-serif;
-  background: #020614;
-  overflow: hidden;
-}
-
-#game {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle at top, #1d2c4d, #020614);
+  font-family: 'Trebuchet MS', sans-serif;
+  background: linear-gradient(#0a1a2a, #000);
   color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  text-align: center;
 }
 
 .screen {
   display: none;
-  width: 100%;
-  height: 100%;
-  padding: 20px;
-  box-sizing: border-box;
-  text-align: center;
+  min-height: 100vh;
+  padding: 30px;
 }
 
 .active {
   display: block;
 }
 
-/* --- INICIO --- */
-#startScreen h1 {
-  font-size: 2.5em;
-  margin-top: 15vh;
-}
-
-#avatar {
-  width: 150px;
-  height: 150px;
-  margin: 20px auto;
-  background: linear-gradient(135deg, #00cfff, #4f8cff);
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 80px;
-  box-shadow: 0 0 30px rgba(0,200,255,0.6);
+h1 {
+  font-size: 3em;
+  margin-bottom: 10px;
 }
 
 button {
-  background: linear-gradient(135deg, #00cfff, #4f8cff);
+  background: #00b3ff;
   border: none;
-  border-radius: 20px;
   padding: 15px 30px;
-  color: white;
-  font-size: 1.1em;
+  font-size: 1.2em;
+  border-radius: 10px;
+  color: black;
   cursor: pointer;
-  margin-top: 15px;
-}
-
-button:disabled {
-  opacity: 0.5;
-}
-
-/* --- MAPA --- */
-#map {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 15px;
-  margin-top: 40px;
-}
-
-.tower {
-  background: rgba(255,255,255,0.1);
-  border: 2px solid #00cfff;
-  border-radius: 15px;
-  padding: 15px;
-  cursor: pointer;
+  margin: 10px;
   transition: 0.2s;
 }
 
-.tower:hover {
+button:hover {
+  background: #00ffcc;
   transform: scale(1.05);
 }
 
-.tower.done {
-  background: rgba(0,200,100,0.3);
+.option {
+  display: block;
+  background: #112f44;
+  border: 2px solid #00b3ff;
+  padding: 15px;
+  margin: 10px auto;
+  max-width: 400px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.option:hover {
+  background: #00b3ff;
+  color: black;
+}
+
+.option.selected {
+  background: #00ff99;
+  color: black;
   border-color: #00ff99;
 }
 
-/* --- OPCIONES --- */
-#challengeBox {
-  margin-top: 20px;
+.negative.selected {
+  background: #ff4444;
+  border-color: #ff4444;
+  color: white;
 }
 
-.choice {
-  background: rgba(255,255,255,0.1);
-  margin: 10px auto;
-  padding: 15px;
+.box {
+  background: rgba(0,0,0,0.7);
+  padding: 20px;
   border-radius: 15px;
-  max-width: 300px;
-  cursor: pointer;
-  border: 2px solid transparent;
-}
-
-.choice:hover {
-  border-color: #00cfff;
-}
-
-.positive {
-  border-left: 5px solid #00ff99;
-}
-
-.negative {
-  border-left: 5px solid #ff5555;
-}
-
-/* --- FINAL --- */
-#summary h2 {
-  margin-top: 25vh;
+  max-width: 500px;
+  margin: auto;
 }
 </style>
 </head>
 
 <body>
-<div id="game">
 
-<!-- SONIDOS -->
-<audio id="clickSound" preload="auto"
-  src="https://cdn.pixabay.com/audio/2022/03/15/audio_3c1b7a6d8f.mp3"></audio>
-<audio id="bgSound" preload="auto" loop
-  src="https://cdn.pixabay.com/audio/2022/10/25/audio_946b8c71d2.mp3"></audio>
+<!-- AUDIO -->
+<audio id="bgm" loop>
+  <source src="https://cdn.pixabay.com/audio/2022/10/16/audio_9c41d3e9c4.mp3" type="audio/mpeg">
+</audio>
 
-<!-- PANTALLA INICIO -->
+<!-- PANTALLA 1 -->
 <div id="startScreen" class="screen active">
-  <div id="avatar">🧭</div>
-  <h1>Explorador Digital</h1>
-  <p>Una aventura de decisiones en el mundo digital</p>
-
-  <button id="soundBtn" onclick="enableSound()">🔊 Activar sonido</button><br>
-  <button id="startBtn" onclick="startGame()" disabled>
-    ▶️ Comenzar aventura
-  </button>
-</div>
-
-<!-- MAPA -->
-<div id="mapScreen" class="screen">
-  <h2>Mapa de Torres</h2>
-  <p>Elegí dónde explorar</p>
-
-  <div id="map">
-    <div class="tower" onclick="openChallenge(0)">🏰 Torre de Redes</div>
-    <div class="tower" onclick="openChallenge(1)">📱 Torre de Contenido</div>
-    <div class="tower" onclick="openChallenge(2)">🔒 Torre de Seguridad</div>
+  <div class="box">
+    <h1>ROFEBLOX</h1>
+    <p>Exploración y Decisión en el Mundo Digital</p>
+    <p>🎧 Activá sonido y comenzá la aventura</p>
+    <button onclick="startGame()">START</button>
   </div>
 </div>
 
-<!-- DESAFÍO -->
-<div id="challengeScreen" class="screen">
-  <h2 id="challengeTitle"></h2>
-  <p id="challengeText"></p>
-  <div id="challengeBox"></div>
+<!-- PANTALLA 2 -->
+<div id="gameScreen" class="screen">
+  <div class="box">
+    <h2>🏰 Torre Digital</h2>
+    <p>Elegí cómo actuar en este mundo virtual</p>
+
+    <div class="option" onclick="choose(this, 10)">
+      ✔ Ayudo a un amigo a tomar una buena decisión online
+    </div>
+
+    <div class="option negative" onclick="choose(this, -10)">
+      ❌ Comparto contenido sin pensar en las consecuencias
+    </div>
+
+    <div class="option" onclick="choose(this, 10)">
+      ✔ Pido ayuda a un adulto cuando algo me incomoda
+    </div>
+
+    <div class="option negative" onclick="choose(this, -10)">
+      ❌ Ignoro advertencias y sigo explorando zonas peligrosas
+    </div>
+
+    <p>Puntaje: <span id="score">0</span></p>
+
+    <button onclick="finishGame()">Finalizar Misión</button>
+  </div>
 </div>
 
-<!-- FINAL -->
-<div id="summary" class="screen">
-  <h2>Tu Resultado</h2>
-  <p id="resultText"></p>
-  <button onclick="restart()">Volver a empezar</button>
-</div>
-
+<!-- PANTALLA 3 -->
+<div id="endScreen" class="screen">
+  <div class="box">
+    <h2>🌟 Resumen de tu aventura</h2>
+    <p id="finalText"></p>
+    <p>Puntaje final: <span id="finalScore"></span></p>
+    <button onclick="restart()">Volver a Jugar</button>
+  </div>
 </div>
 
 <script>
 let score = 0;
-let completed = [false, false, false];
-let audioUnlocked = false;
-
-const challenges = [
-  {
-    title: "Torre de Redes",
-    text: "Un desconocido te escribe por privado y te pide una foto.",
-    choices: [
-      { text: "No responder y bloquear", value: 1 },
-      { text: "Enviar una foto", value: -1 }
-    ]
-  },
-  {
-    title: "Torre de Contenido",
-    text: "Un video aparece con imágenes que te hacen sentir incómodo.",
-    choices: [
-      { text: "Cerrar el video y avisar a un adulto", value: 1 },
-      { text: "Seguir mirando", value: -1 }
-    ]
-  },
-  {
-    title: "Torre de Seguridad",
-    text: "Un juego te pide tus datos personales para ganar monedas.",
-    choices: [
-      { text: "No dar información", value: 1 },
-      { text: "Poner tus datos", value: -1 }
-    ]
-  }
-];
-
-function playClick() {
-  if (!audioUnlocked) return;
-  const click = document.getElementById("clickSound");
-  click.currentTime = 0;
-  click.play();
-}
-
-function enableSound() {
-  const bg = document.getElementById("bgSound");
-  const click = document.getElementById("clickSound");
-
-  bg.volume = 0.4;
-  click.volume = 0.7;
-
-  bg.play().then(() => {
-    bg.pause();
-    bg.currentTime = 0;
-    audioUnlocked = true;
-
-    document.getElementById("soundBtn").innerText = "✅ Sonido activado";
-    document.getElementById("startBtn").disabled = false;
-
-    playClick();
-  }).catch(() => {
-    alert("Tocá de nuevo para habilitar sonido 🔊");
-  });
-}
+let audioStarted = false;
 
 function startGame() {
-  playClick();
-  const bg = document.getElementById("bgSound");
-  if (audioUnlocked) {
-    bg.play();
+  const audio = document.getElementById("bgm");
+
+  if (!audioStarted) {
+    audio.play().then(() => {
+      audioStarted = true;
+      showGame();
+    }).catch(() => {
+      alert("Tocá nuevamente START para habilitar sonido 🎧");
+    });
+  } else {
+    showGame();
   }
-  switchScreen("startScreen", "mapScreen");
 }
 
-function openChallenge(index) {
-  if (completed[index]) return;
-
-  playClick();
-  const c = challenges[index];
-  document.getElementById("challengeTitle").innerText = c.title;
-  document.getElementById("challengeText").innerText = c.text;
-
-  const box = document.getElementById("challengeBox");
-  box.innerHTML = "";
-
-  c.choices.forEach(choice => {
-    const div = document.createElement("div");
-    div.className = "choice " + (choice.value > 0 ? "positive" : "negative");
-    div.innerText = choice.text;
-
-    div.onclick = () => {
-      playClick();
-      score += choice.value;
-      completed[index] = true;
-      document.querySelectorAll(".tower")[index].classList.add("done");
-      switchScreen("challengeScreen", "mapScreen");
-
-      if (completed.every(v => v)) {
-        showSummary();
-      }
-    };
-
-    box.appendChild(div);
-  });
-
-  switchScreen("mapScreen", "challengeScreen");
+function showGame() {
+  document.getElementById("startScreen").classList.remove("active");
+  document.getElementById("gameScreen").classList.add("active");
 }
 
-function showSummary() {
-  let result = "Tomaste decisiones con sabiduría.";
+function choose(element, points) {
+  if (element.classList.contains("selected")) return;
 
-  if (score < 1) {
-    result = "Hoy aprendiste que algunas decisiones digitales necesitan más cuidado.";
+  element.classList.add("selected");
+  score += points;
+  document.getElementById("score").innerText = score;
+}
+
+function finishGame() {
+  document.getElementById("gameScreen").classList.remove("active");
+  document.getElementById("endScreen").classList.add("active");
+
+  document.getElementById("finalScore").innerText = score;
+
+  let text = "Exploraste el mundo digital con sabiduría.";
+  if (score < 0) {
+    text = "Tus decisiones te llevaron por caminos peligrosos. ¡Siempre podés volver a elegir bien!";
   }
 
-  document.getElementById("resultText").innerText =
-    `Puntaje final: ${score}\n\n${result}`;
-
-  setTimeout(() => {
-    switchScreen("mapScreen", "summary");
-  }, 500);
+  document.getElementById("finalText").innerText = text;
 }
 
 function restart() {
-  playClick();
   score = 0;
-  completed = [false, false, false];
-  document.querySelectorAll(".tower").forEach(t => t.classList.remove("done"));
-  document.getElementById("soundBtn").innerText = "🔊 Activar sonido";
-  document.getElementById("startBtn").disabled = true;
-  audioUnlocked = false;
-  switchScreen("summary", "startScreen");
-}
+  document.getElementById("score").innerText = "0";
 
-function switchScreen(from, to) {
-  document.getElementById(from).classList.remove("active");
-  document.getElementById(to).classList.add("active");
+  document.querySelectorAll(".option").forEach(opt => {
+    opt.classList.remove("selected");
+  });
+
+  document.getElementById("endScreen").classList.remove("active");
+  document.getElementById("startScreen").classList.add("active");
 }
 </script>
 
 </body>
-</html>
+  </html>
