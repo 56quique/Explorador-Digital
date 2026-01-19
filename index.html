@@ -2,247 +2,160 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Exploradores Digitales - Mapa</title>
+<title>Exploradores Digitales</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: linear-gradient(#07141f, #000);
+  overflow: hidden;
+}
+
+/* FONDO CIUDAD */
+#city {
+  position: fixed;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(to top, #020b18 20%, #081d3a 60%, #0a2f5a 100%);
+  animation: moveCity 30s linear infinite;
+}
+
+/* EDIFICIOS */
+.buildings {
+  position: absolute;
+  bottom: 0;
+  width: 200%;
+  height: 40%;
+  background: repeating-linear-gradient(
+    to right,
+    #000 0px,
+    #000 40px,
+    #050505 40px,
+    #050505 80px
+  );
+  animation: moveCity 60s linear infinite;
+}
+
+/* LUCES */
+.lights {
+  position: absolute;
+  bottom: 0;
+  width: 200%;
+  height: 40%;
+  background-image: radial-gradient(#00ffcc 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.3;
+  animation: blink 2s infinite alternate, moveCity 20s linear infinite;
+}
+
+/* CONTENIDO */
+#content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   color: white;
   text-align: center;
+  background: radial-gradient(circle at center, rgba(0,0,0,0.5), rgba(0,0,0,0.9));
 }
 
-.screen {
-  display: none;
-  min-height: 100vh;
-  padding: 20px;
-}
-
-.active {
-  display: block;
-}
-
-h1, h2 {
+h1 {
+  font-size: 2.5em;
   margin-bottom: 10px;
 }
 
-.box {
-  background: rgba(0,0,0,0.7);
-  padding: 20px;
-  border-radius: 15px;
-  max-width: 500px;
-  margin: auto;
+p {
+  max-width: 300px;
+  margin-bottom: 20px;
+  font-size: 1.1em;
 }
 
+/* AVATAR */
+#avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(#00ffcc, #005577);
+  margin-bottom: 20px;
+  animation: float 3s ease-in-out infinite;
+  box-shadow: 0 0 20px #00ffcc;
+  position: relative;
+}
+
+#avatar::after {
+  content: "🙂";
+  font-size: 60px;
+  position: absolute;
+  top: 30px;
+  left: 35px;
+}
+
+/* BOTÓN */
 button {
-  background: #00b3ff;
+  background: #00ffcc;
   border: none;
-  padding: 12px 25px;
-  font-size: 1em;
-  border-radius: 10px;
+  padding: 15px 35px;
+  font-size: 1.2em;
+  border-radius: 30px;
   cursor: pointer;
-  margin: 10px;
+  box-shadow: 0 0 15px #00ffcc;
 }
 
 button:hover {
-  background: #00ffcc;
-}
-
-.zone {
-  background: #102c3d;
-  border: 2px solid #00b3ff;
-  padding: 15px;
-  margin: 15px auto;
-  max-width: 350px;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.zone:hover {
-  background: #00b3ff;
+  background: white;
   color: black;
 }
 
-.zone.completed {
-  background: #00ff99;
-  border-color: #00ff99;
-  color: black;
+/* ANIMACIONES */
+@keyframes moveCity {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
-.option {
-  background: #102c3d;
-  border: 2px solid #00b3ff;
-  padding: 12px;
-  margin: 10px auto;
-  max-width: 400px;
-  border-radius: 10px;
-  cursor: pointer;
+@keyframes blink {
+  from { opacity: 0.2; }
+  to { opacity: 0.5; }
 }
 
-.option:hover {
-  background: #00b3ff;
-  color: black;
-}
-
-.option.selected {
-  background: #00ff99;
-  color: black;
-  border-color: #00ff99;
-}
-
-.option.negative.selected {
-  background: #ff4444;
-  color: white;
-  border-color: #ff4444;
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
 }
 </style>
 </head>
 
 <body>
 
-<!-- PANTALLA 1 -->
-<div id="startScreen" class="screen active">
-  <div class="box">
-    <h1>Exploradores Digitales</h1>
-    <p>Recorré el mapa y tomá decisiones sabias en cada zona</p>
-    <button onclick="goToMap()">Ver Mapa</button>
-  </div>
+<!-- FONDO -->
+<div id="city">
+  <div class="buildings"></div>
+  <div class="lights"></div>
 </div>
 
-<!-- PANTALLA 2 -->
-<div id="mapScreen" class="screen">
-  <div class="box">
-    <h2>🗺️ Mapa Digital</h2>
-    <p>Puntaje: <span id="score">0</span></p>
+<!-- CONTENIDO -->
+<div id="content">
+  <h1>Exploradores Digitales</h1>
+  <p>
+    Entrás a una ciudad llena de caminos.  
+    No todo lo que brilla es seguro.
+  </p>
 
-    <div class="zone" onclick="openZone(1)" id="zone1">
-      🏕️ Zona 1 — Bosque de Mensajes
-    </div>
+  <div id="avatar"></div>
 
-    <div class="zone" onclick="openZone(2)" id="zone2">
-      🏰 Zona 2 — Torre Digital
-    </div>
-
-    <div class="zone" onclick="openZone(3)" id="zone3">
-      🌆 Zona 3 — Ciudad Virtual
-    </div>
-
-    <button onclick="finishGame()">Finalizar Exploración</button>
-  </div>
-</div>
-
-<!-- PANTALLA 3 -->
-<div id="zoneScreen" class="screen">
-  <div class="box">
-    <h2 id="zoneTitle"></h2>
-    <p id="zoneText"></p>
-
-    <div class="option" onclick="choose(this, 10)">
-      ✔ Actúo con respeto y busco ayuda si es necesario
-    </div>
-
-    <div class="option negative" onclick="choose(this, -10)">
-      ❌ Ignoro los riesgos y sigo sin pensar
-    </div>
-
-    <button onclick="backToMap()">Volver al Mapa</button>
-  </div>
-</div>
-
-<!-- PANTALLA 4 -->
-<div id="endScreen" class="screen">
-  <div class="box">
-    <h2>🌟 Resultado Final</h2>
-    <p id="finalText"></p>
-    <p>Puntaje total: <span id="finalScore"></span></p>
-    <button onclick="restart()">Comenzar de Nuevo</button>
-  </div>
+  <button onclick="startMission()">INICIAR MISIÓN</button>
 </div>
 
 <script>
-let score = 0;
-let currentZone = 0;
-let completedZones = {};
-
-const zoneData = {
-  1: {
-    title: "🏕️ Bosque de Mensajes",
-    text: "Recibís un mensaje extraño de alguien que no conocés. ¿Qué hacés?"
-  },
-  2: {
-    title: "🏰 Torre Digital",
-    text: "Un amigo quiere compartir algo que puede lastimar a otros. ¿Cómo reaccionás?"
-  },
-  3: {
-    title: "🌆 Ciudad Virtual",
-    text: "Ves contenido que te incomoda. ¿Cuál es tu decisión?"
-  }
-};
-
-function goToMap() {
-  document.getElementById("startScreen").classList.remove("active");
-  document.getElementById("mapScreen").classList.add("active");
-}
-
-function openZone(zone) {
-  currentZone = zone;
-
-  document.getElementById("zoneTitle").innerText = zoneData[zone].title;
-  document.getElementById("zoneText").innerText = zoneData[zone].text;
-
-  document.querySelectorAll(".option").forEach(opt => {
-    opt.classList.remove("selected");
-  });
-
-  document.getElementById("mapScreen").classList.remove("active");
-  document.getElementById("zoneScreen").classList.add("active");
-}
-
-function choose(element, points) {
-  if (element.classList.contains("selected")) return;
-
-  element.classList.add("selected");
-  score += points;
-  document.getElementById("score").innerText = score;
-
-  completedZones[currentZone] = true;
-  document.getElementById("zone" + currentZone).classList.add("completed");
-}
-
-function backToMap() {
-  document.getElementById("zoneScreen").classList.remove("active");
-  document.getElementById("mapScreen").classList.add("active");
-}
-
-function finishGame() {
-  document.getElementById("mapScreen").classList.remove("active");
-  document.getElementById("endScreen").classList.add("active");
-
-  document.getElementById("finalScore").innerText = score;
-
-  let text = "Exploraste el mundo digital con sabiduría y valentía.";
-  if (score < 10) {
-    text = "Tu camino tuvo riesgos. Recordá: siempre podés elegir protegerte y proteger a otros.";
-  }
-
-  document.getElementById("finalText").innerText = text;
-}
-
-function restart() {
-  score = 0;
-  completedZones = {};
-  document.getElementById("score").innerText = "0";
-
-  document.querySelectorAll(".zone").forEach(zone => {
-    zone.classList.remove("completed");
-  });
-
-  document.getElementById("endScreen").classList.remove("active");
-  document.getElementById("startScreen").classList.add("active");
+function startMission() {
+  alert("Próximo paso: MAPA DE ZONAS\n(Acá conectamos la siguiente pantalla)");
 }
 </script>
 
 </body>
-  </html>
+</html>
