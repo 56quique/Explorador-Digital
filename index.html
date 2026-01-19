@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -41,7 +41,7 @@ html, body {
 /* --- INICIO --- */
 #startScreen h1 {
   font-size: 2.5em;
-  margin-top: 20vh;
+  margin-top: 15vh;
 }
 
 #avatar {
@@ -63,13 +63,13 @@ button {
   border-radius: 20px;
   padding: 15px 30px;
   color: white;
-  font-size: 1.2em;
+  font-size: 1.1em;
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 15px;
 }
 
-button:hover {
-  transform: scale(1.05);
+button:disabled {
+  opacity: 0.5;
 }
 
 /* --- MAPA --- */
@@ -127,7 +127,7 @@ button:hover {
 
 /* --- FINAL --- */
 #summary h2 {
-  margin-top: 30vh;
+  margin-top: 25vh;
 }
 </style>
 </head>
@@ -146,7 +146,11 @@ button:hover {
   <div id="avatar">🧭</div>
   <h1>Explorador Digital</h1>
   <p>Una aventura de decisiones en el mundo digital</p>
-  <button onclick="unlockAudio()">Comenzar</button>
+
+  <button id="soundBtn" onclick="enableSound()">🔊 Activar sonido</button><br>
+  <button id="startBtn" onclick="startGame()" disabled>
+    ▶️ Comenzar aventura
+  </button>
 </div>
 
 <!-- MAPA -->
@@ -210,19 +214,13 @@ const challenges = [
 ];
 
 function playClick() {
+  if (!audioUnlocked) return;
   const click = document.getElementById("clickSound");
-  if (audioUnlocked) {
-    click.currentTime = 0;
-    click.play();
-  }
+  click.currentTime = 0;
+  click.play();
 }
 
-function unlockAudio() {
-  if (audioUnlocked) {
-    startGame();
-    return;
-  }
-
+function enableSound() {
   const bg = document.getElementById("bgSound");
   const click = document.getElementById("clickSound");
 
@@ -233,9 +231,13 @@ function unlockAudio() {
     bg.pause();
     bg.currentTime = 0;
     audioUnlocked = true;
-    startGame();
+
+    document.getElementById("soundBtn").innerText = "✅ Sonido activado";
+    document.getElementById("startBtn").disabled = false;
+
+    playClick();
   }).catch(() => {
-    alert("Tocá nuevamente para activar el sonido 🔊");
+    alert("Tocá de nuevo para habilitar sonido 🔊");
   });
 }
 
@@ -302,6 +304,9 @@ function restart() {
   score = 0;
   completed = [false, false, false];
   document.querySelectorAll(".tower").forEach(t => t.classList.remove("done"));
+  document.getElementById("soundBtn").innerText = "🔊 Activar sonido";
+  document.getElementById("startBtn").disabled = true;
+  audioUnlocked = false;
   switchScreen("summary", "startScreen");
 }
 
