@@ -13,25 +13,18 @@ html, body {
   height: 100%;
   overflow: hidden;
   background: black;
-  font-family: Arial, sans-serif;
 }
 
-/* ESCENA */
-#scene {
-  position: fixed;
-  inset: 0;
-}
-
-/* FONDO */
+/* FONDO SVG */
 #background {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: 1;
 }
 
 /* AVATAR */
 #avatar {
-  position: absolute;
+  position: fixed;
   bottom: 70px;
   left: 50%;
   transform: translateX(-50%);
@@ -39,7 +32,7 @@ html, body {
   animation: float 3s ease-in-out infinite;
 }
 
-/* ANIMACIÓN FLOTAR */
+/* ANIMACIÓN */
 @keyframes float {
   0% { transform: translate(-50%, 0); }
   50% { transform: translate(-50%, -12px); }
@@ -50,11 +43,8 @@ html, body {
 
 <body>
 
-<div id="scene">
-
 <!-- FONDO CIUDAD -->
-<div id="background">
-<svg viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" width="100%" height="100%">
+<svg id="background" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
 
   <defs>
     <linearGradient id="skyGrad" x1="0" y1="1" x2="0" y2="0">
@@ -118,7 +108,6 @@ html, body {
   </g>
 
 </svg>
-</div>
 
 <!-- AVATAR CARTOON -->
 <div id="avatar">
@@ -158,7 +147,7 @@ html, body {
   <!-- BOCA -->
   <path d="M75 100 Q100 115 125 100" stroke="#003333" stroke-width="4" fill="none"/>
 
-  <!-- ANTENA DIGITAL -->
+  <!-- ANTENA -->
   <line x1="100" y1="25" x2="100" y2="0" stroke="#00ffcc" stroke-width="4"/>
   <circle cx="100" cy="0" r="6" fill="#00ffcc">
     <animate attributeName="opacity" from="0.2" to="1" dur="1s" repeatCount="indefinite"/>
@@ -176,8 +165,6 @@ html, body {
     repeatCount="indefinite"
   />
 </svg>
-</div>
-
 </div>
 
 </body>
