@@ -2,160 +2,108 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Exploradores Digitales</title>
+<title>Fondo Ciudad Digital</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body {
+html, body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  padding: 0;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
+  background: #000;
 }
 
-/* FONDO CIUDAD */
-#city {
-  position: fixed;
-  width: 200%;
+/* CIELO */
+#sky {
+  position: absolute;
+  width: 100%;
   height: 100%;
   background: linear-gradient(to top, #020b18 20%, #081d3a 60%, #0a2f5a 100%);
-  animation: moveCity 30s linear infinite;
 }
 
-/* EDIFICIOS */
-.buildings {
+/* CAPA DE EDIFICIOS LEJANOS */
+.layer-back {
   position: absolute;
   bottom: 0;
   width: 200%;
-  height: 40%;
+  height: 25%;
   background: repeating-linear-gradient(
     to right,
-    #000 0px,
-    #000 40px,
+    #010101 0px,
+    #010101 60px,
+    #030303 60px,
+    #030303 120px
+  );
+  animation: moveSlow 60s linear infinite;
+}
+
+/* CAPA DE EDIFICIOS CERCANOS */
+.layer-front {
+  position: absolute;
+  bottom: 0;
+  width: 200%;
+  height: 35%;
+  background: repeating-linear-gradient(
+    to right,
+    #000000 0px,
+    #000000 40px,
     #050505 40px,
     #050505 80px
   );
-  animation: moveCity 60s linear infinite;
+  animation: moveFast 30s linear infinite;
 }
 
-/* LUCES */
+/* LUCES DE CIUDAD */
 .lights {
   position: absolute;
   bottom: 0;
   width: 200%;
-  height: 40%;
+  height: 35%;
   background-image: radial-gradient(#00ffcc 1px, transparent 1px);
-  background-size: 40px 40px;
-  opacity: 0.3;
-  animation: blink 2s infinite alternate, moveCity 20s linear infinite;
+  background-size: 50px 50px;
+  opacity: 0.25;
+  animation: blink 2s infinite alternate, moveFast 30s linear infinite;
 }
 
-/* CONTENIDO */
-#content {
+/* ESTRELLAS */
+.stars {
   position: absolute;
   width: 100%;
   height: 100%;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  text-align: center;
-  background: radial-gradient(circle at center, rgba(0,0,0,0.5), rgba(0,0,0,0.9));
-}
-
-h1 {
-  font-size: 2.5em;
-  margin-bottom: 10px;
-}
-
-p {
-  max-width: 300px;
-  margin-bottom: 20px;
-  font-size: 1.1em;
-}
-
-/* AVATAR */
-#avatar {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background: linear-gradient(#00ffcc, #005577);
-  margin-bottom: 20px;
-  animation: float 3s ease-in-out infinite;
-  box-shadow: 0 0 20px #00ffcc;
-  position: relative;
-}
-
-#avatar::after {
-  content: "🙂";
-  font-size: 60px;
-  position: absolute;
-  top: 30px;
-  left: 35px;
-}
-
-/* BOTÓN */
-button {
-  background: #00ffcc;
-  border: none;
-  padding: 15px 35px;
-  font-size: 1.2em;
-  border-radius: 30px;
-  cursor: pointer;
-  box-shadow: 0 0 15px #00ffcc;
-}
-
-button:hover {
-  background: white;
-  color: black;
+  background-image: radial-gradient(white 1px, transparent 1px);
+  background-size: 80px 80px;
+  opacity: 0.2;
+  animation: blink 3s infinite alternate;
 }
 
 /* ANIMACIONES */
-@keyframes moveCity {
+@keyframes moveSlow {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes moveFast {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
 
 @keyframes blink {
-  from { opacity: 0.2; }
-  to { opacity: 0.5; }
-}
-
-@keyframes float {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0); }
+  from { opacity: 0.1; }
+  to { opacity: 0.4; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- FONDO -->
-<div id="city">
-  <div class="buildings"></div>
-  <div class="lights"></div>
-</div>
+<div id="sky"></div>
+<div class="stars"></div>
 
-<!-- CONTENIDO -->
-<div id="content">
-  <h1>Exploradores Digitales</h1>
-  <p>
-    Entrás a una ciudad llena de caminos.  
-    No todo lo que brilla es seguro.
-  </p>
-
-  <div id="avatar"></div>
-
-  <button onclick="startMission()">INICIAR MISIÓN</button>
-</div>
-
-<script>
-function startMission() {
-  alert("Próximo paso: MAPA DE ZONAS\n(Acá conectamos la siguiente pantalla)");
-}
-</script>
+<div class="layer-back"></div>
+<div class="lights"></div>
+<div class="layer-front"></div>
 
 </body>
 </html>
