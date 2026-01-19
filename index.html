@@ -1,6 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Exploradores Digitales</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: black;
+  font-family: Arial, sans-serif;
+}
+
+/* ESCENA */
+#scene {
+  position: fixed;
+  inset: 0;
+}
+
+/* FONDO */
+#background {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* AVATAR */
+#avatar {
+  position: absolute;
+  bottom: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  animation: float 3s ease-in-out infinite;
+}
+
+/* ANIMACIÓN FLOTAR */
+@keyframes float {
+  0% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, -12px); }
+  100% { transform: translate(-50%, 0); }
+}
+</style>
+</head>
+
+<body>
+
+<div id="scene">
+
+<!-- FONDO CIUDAD -->
+<div id="background">
+<svg viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" width="100%" height="100%">
+
+  <defs>
+    <linearGradient id="skyGrad" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#020b18"/>
+      <stop offset="60%" stop-color="#081d3a"/>
+      <stop offset="100%" stop-color="#0a2f5a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- CIELO -->
+  <rect width="1000" height="600" fill="url(#skyGrad)"/>
+
+  <!-- ESTRELLAS -->
+  <g>
+    <circle cx="100" cy="100" r="1" fill="white"/>
+    <circle cx="300" cy="80" r="1" fill="white"/>
+    <circle cx="600" cy="120" r="1" fill="white"/>
+    <circle cx="850" cy="60" r="1" fill="white"/>
+    <circle cx="200" cy="200" r="1" fill="white"/>
+    <circle cx="500" cy="180" r="1" fill="white"/>
+    <circle cx="750" cy="160" r="1" fill="white"/>
+
+    <animate attributeName="opacity" from="0.2" to="0.6" dur="2s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- CIUDAD LEJANA -->
+  <g>
+    <rect x="0" y="350" width="100" height="250" fill="#050505"/>
+    <rect x="120" y="320" width="140" height="280" fill="#070707"/>
+    <rect x="300" y="340" width="180" height="260" fill="#060606"/>
+    <rect x="520" y="310" width="150" height="290" fill="#080808"/>
+    <rect x="700" y="330" width="200" height="270" fill="#050505"/>
+    <rect x="920" y="350" width="120" height="250" fill="#070707"/>
+
+    <animateTransform attributeName="transform" type="translate"
+      from="0 0" to="-300 0" dur="60s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- CIUDAD CERCANA -->
+  <g>
+    <rect x="0" y="400" width="120" height="200" fill="#000000"/>
+    <rect x="140" y="370" width="180" height="230" fill="#020202"/>
+    <rect x="360" y="390" width="200" height="210" fill="#000000"/>
+    <rect x="600" y="360" width="160" height="240" fill="#030303"/>
+    <rect x="800" y="380" width="220" height="220" fill="#000000"/>
+
+    <animateTransform attributeName="transform" type="translate"
+      from="0 0" to="-500 0" dur="30s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- LUCES -->
+  <g>
+    <circle cx="60" cy="430" r="2" fill="#00ffcc"/>
+    <circle cx="180" cy="460" r="2" fill="#00ffcc"/>
+    <circle cx="320" cy="420" r="2" fill="#00ffcc"/>
+    <circle cx="500" cy="450" r="2" fill="#00ffcc"/>
+    <circle cx="700" cy="440" r="2" fill="#00ffcc"/>
+    <circle cx="900" cy="460" r="2" fill="#00ffcc"/>
+
+    <animate attributeName="opacity" from="0.2" to="0.8" dur="1.5s" repeatCount="indefinite"/>
+  </g>
+
+</svg>
+</div>
+
 <!-- AVATAR CARTOON -->
 <div id="avatar">
-
 <svg viewBox="0 0 200 300" width="160" height="260">
 
   <!-- SOMBRA -->
@@ -24,15 +145,12 @@
 
   <!-- CABEZA -->
   <ellipse cx="100" cy="80" rx="55" ry="50" fill="#00ffcc"/>
-
-  <!-- CONTORNO -->
   <ellipse cx="100" cy="80" rx="55" ry="50" fill="none" stroke="#003333" stroke-width="4"/>
 
   <!-- OJOS -->
   <g id="eyes">
     <ellipse cx="80" cy="75" rx="10" ry="14" fill="white"/>
     <ellipse cx="120" cy="75" rx="10" ry="14" fill="white"/>
-
     <circle cx="80" cy="80" r="5" fill="#000"/>
     <circle cx="120" cy="80" r="5" fill="#000"/>
   </g>
@@ -57,7 +175,10 @@
     dur="0.15s"
     repeatCount="indefinite"
   />
-
 </svg>
+</div>
 
 </div>
+
+</body>
+  </html>
