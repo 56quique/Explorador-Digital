@@ -18,7 +18,7 @@ html, body {
   font-family: 'Orbitron', sans-serif;
 }
 
-/* CONTENEDOR GENERAL */
+/* CONTENEDOR */
 #app {
   position: fixed;
   inset: 0;
@@ -39,36 +39,38 @@ html, body {
   text-align: center;
   max-width: 90%;
   z-index: 10;
-  pointer-events: auto;
+  background: rgba(255,255,255,0.85);
+  padding: 25px;
+  border-radius: 15px;
 }
 
 /* -------- PANTALLA 1 -------- */
 #screen1 {
-  background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhAzqup03ju57-eyf6qxn_6jVJzGZCNqOrIKQw5bRQMftgKe2RX6SHM-iiLar-0RjKEUXaw1VC71RRx0PR7vNDQVGakJcmzsp4x3hKyG8mMBzt-ZVTckeX1Abv0oFQx673BiNEAu5OBKriCAK-TGK7LKrB8nD36FNwYHEAWQe_0RpFRuia3JeOxMqv6TYCT/s2560/Texto%20del%20p%C3%A1rrafo.png") no-repeat center center;
+  background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhAzqup03ju57-eyf6qxn_6jVJzGZCNqOrIKQw5bRQMftgKe2RX6SHM-iiLar-0RjKEUXaw1VC71RRx0PR7vNDQVGakJcmzsp4x3hKyG8mMBzt-ZVTckeX1Abv0oFQx673BiNEAu5OBKriCAK-TGK7LKrB8nD36FNwYHEAWQe_0RpFRuia3JeOxMqv6TYCT/s2560/Texto%20del%20p%C3%A1rrafo.png") 
+  no-repeat center center;
   background-size: cover;
 }
 
 /* TEXTO */
-#typeText {
+#typeText, #typeText2 {
   color: black;
-  font-size: 2rem;
-  text-shadow: 0 0 8px rgba(255,255,255,0.7);
+  font-size: 1.8rem;
   min-height: 120px;
   margin-bottom: 20px;
+  line-height: 1.5em;
 }
 
 /* BOTÓN */
 #startBtn {
-  padding: 12px 30px;
+  padding: 12px 35px;
   font-size: 1.2rem;
   border: 2px solid black;
-  background: rgba(255,255,255,0.9);
+  background: white;
   color: black;
   cursor: pointer;
   opacity: 0;
   transform: scale(0.9);
   transition: all 0.4s ease;
-  pointer-events: auto;
 }
 
 #startBtn.show {
@@ -78,16 +80,17 @@ html, body {
 
 /* -------- PANTALLA 2 -------- */
 #screen2 {
-  background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEitFZ1ePvc2W5iAGi86PBfzgOfdhBUUq0TWFcTFYwSjRehw_00z3UL_PiZ1HSStfRvkLURbZGswSUpW5FQ1_wmwtMmQZw8jbZjrCSGSSVoc1Z831VSVVrqVzzHhX8_NREj3B1KC9iEwkAT1kyDvM-E_P16lgYn0DZPBuM5GJcPb0EtGKeu0XUMTxt8duUA1/s320/Pantalla2.png") no-repeat center center;
+  background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEitFZ1ePvc2W5iAGi86PBfzgOfdhBUUq0TWFcTFYwSjRehw_00z3UL_PiZ1HSStfRvkLURbZGswSUpW5FQ1_wmwtMmQZw8jbZjrCSGSSVoc1Z831VSVVrqVzzHhX8_NREj3B1KC9iEwkAT1kyDvM-E_P16lgYn0DZPBuM5GJcPb0EtGKeu0XUMTxt8duUA1/s320/Pantalla2.png") 
+  no-repeat center center;
   background-size: cover;
   opacity: 0;
   pointer-events: none;
+  filter: blur(4px) brightness(0.6);
 }
 
-/* ZOOM */
+/* ZOOM SUAVE */
 .zoom {
   animation: zoomLoop 12s ease-in-out infinite;
-  pointer-events: auto;
 }
 
 @keyframes zoomLoop {
@@ -98,8 +101,8 @@ html, body {
 
 /* RESPONSIVE */
 @media (max-width: 600px) {
-  #typeText {
-    font-size: 1.5rem;
+  #typeText, #typeText2 {
+    font-size: 1.4rem;
   }
 }
 </style>
@@ -118,34 +121,57 @@ html, body {
   </div>
 
   <!-- PANTALLA 2 -->
-  <div id="screen2" class="screen"></div>
+  <div id="screen2" class="screen">
+    <div class="ui">
+      <div id="typeText2"></div>
+    </div>
+  </div>
 
 </div>
 
 <script>
-const text = "¡Bienvenido! ¿Estás listo para una aventura sin precedentes?";
-const speed = 50;
+/* TEXTOS */
+const text1 = "¡Bienvenido! ¿Estás listo para una aventura sin precedentes?";
+const text2 =
+"Estás a punto de cruzar un umbral.\n\n" +
+"La ciudad se abre frente a vos como un mapa lleno de caminos, señales y decisiones.\n" +
+"Cada paso que des pondrá a prueba lo que creés saber.\n\n" +
+"Observá, explorá y avanzá.\nPorque no siempre la salida es el final…\nA veces, es solo el comienzo.";
 
+/* ELEMENTOS */
+const speed = 45;
 let i = 0;
-const target = document.getElementById("typeText");
-const button = document.getElementById("startBtn");
+let j = 0;
+
+const t1 = document.getElementById("typeText");
+const t2 = document.getElementById("typeText2");
+const btn = document.getElementById("startBtn");
 const screen1 = document.getElementById("screen1");
 const screen2 = document.getElementById("screen2");
 
-/* MAQUINA */
-function typeWriter() {
-  if (i < text.length) {
-    target.textContent += text.charAt(i);
+/* MAQUINA TEXTO 1 */
+function typeWriter1() {
+  if (i < text1.length) {
+    t1.textContent += text1.charAt(i);
     i++;
-    setTimeout(typeWriter, speed);
+    setTimeout(typeWriter1, speed);
   } else {
-    button.classList.add("show");
+    btn.classList.add("show");
   }
 }
 
-/* TRANSICIÓN SEGURA */
-button.addEventListener("click", () => {
-  console.log("Botón presionado");
+/* MAQUINA TEXTO 2 */
+function typeWriter2() {
+  if (j < text2.length) {
+    const char = text2.charAt(j);
+    t2.innerHTML += char === "\n" ? "<br>" : char;
+    j++;
+    setTimeout(typeWriter2, speed);
+  }
+}
+
+/* TRANSICIÓN */
+btn.addEventListener("click", () => {
   screen1.style.opacity = "0";
   screen1.style.pointerEvents = "none";
 
@@ -154,12 +180,13 @@ button.addEventListener("click", () => {
     screen2.style.opacity = "1";
     screen2.style.pointerEvents = "auto";
     screen2.classList.add("zoom");
+    typeWriter2();
   }, 1000);
 });
 
-typeWriter();
+/* INICIO */
+typeWriter1();
 </script>
 
 </body>
 </html>
-
