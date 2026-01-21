@@ -2,85 +2,60 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>El Umbral</title>
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no">
+<title>Bienvenidos</title>
 
 <style>
 html, body {
   margin: 0;
   padding: 0;
-  overflow: hidden;
-  height: 100%;
-  background: black;
-  font-family: 'Segoe UI', sans-serif;
-}
-
-/* Contenedor principal */
-#scene {
-  position: relative;
   width: 100%;
   height: 100%;
   overflow: hidden;
+  background: black;
+  font-family: Arial, sans-serif;
 }
 
-/* Fondo con efecto de avance */
-#background {
-  position: absolute;
-  width: 120%;
-  height: 120%;
-  left: -10%;
-  top: -10%;
-  background-image: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhAzqup03ju57-eyf6qxn_6jVJzGZCNqOrIKQw5bRQMftgKe2RX6SHM-iiLar-0RjKEUXaw1VC71RRx0PR7vNDQVGakJcmzsp4x3hKyG8mMBzt-ZVTckeX1Abv0oFQx673BiNEAu5OBKriCAK-TGK7LKrB8nD36FNwYHEAWQe_0RpFRuia3JeOxMqv6TYCT/s320/Texto%20del%20p%C3%A1rrafo.png");
+/* ESCENA */
+#scene {
+  position: fixed;
+  inset: 0;
+  background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhAzqup03ju57-eyf6qxn_6jVJzGZCNqOrIKQw5bRQMftgKe2RX6SHM-iiLar-0RjKEUXaw1VC71RRx0PR7vNDQVGakJcmzsp4x3hKyG8mMBzt-ZVTckeX1Abv0oFQx673BiNEAu5OBKriCAK-TGK7LKrB8nD36FNwYHEAWQe_0RpFRuia3JeOxMqv6TYCT/s2560/Texto%20del%20p%C3%A1rrafo.png") no-repeat center center;
   background-size: cover;
-  background-position: center;
-  transform: scale(1);
-  transition: transform 2s ease;
 }
 
-/* Oscurecimiento suave para leer texto */
+/* SOBREOSCURECIDO para resaltar el texto si fuera necesario */
 #overlay {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle, transparent 30%, rgba(0,0,0,0.6) 100%);
-  z-index: 2;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
 }
 
-/* Caja de texto tipo narrativa */
-#textBox {
+/* TEXTO BIENVENIDA */
+#welcome {
   position: absolute;
-  bottom: 8%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 85%;
-  padding: 16px;
-  background: rgba(0, 0, 0, 0.7);
-  border-radius: 12px;
+  top: 40%;
+  width: 100%;
+  text-align: center;
   color: white;
-  font-size: 1.1em;
-  text-align: center;
-  z-index: 3;
+  font-size: 2.5rem;
+  text-shadow: 0 0 15px rgba(0,0,0,0.8);
   opacity: 0;
-  transition: opacity 1s ease;
+  animation: fadeOut 4s forwards 1.5s;
 }
 
-/* Indicador de toque */
-#tapHint {
-  position: absolute;
-  bottom: 3%;
-  width: 100%;
-  text-align: center;
-  color: #00eaff;
-  font-size: 0.9em;
-  z-index: 3;
-  opacity: 0.8;
-  animation: pulse 2s infinite;
+/* ANIMACIÓN DESVANECER */
+@keyframes fadeOut {
+  0%   { opacity: 1; }
+  60%  { opacity: 1; }
+  100% { opacity: 0; }
 }
 
-@keyframes pulse {
-  0% { opacity: 0.3; }
-  50% { opacity: 1; }
-  100% { opacity: 0.3; }
+/* RESPONSIVE PARA CELULARES */
+@media (max-width: 600px) {
+  #welcome {
+    font-size: 2rem;
+  }
 }
 </style>
 </head>
@@ -88,53 +63,16 @@ html, body {
 <body>
 
 <div id="scene">
-  <div id="background"></div>
   <div id="overlay"></div>
-
-  <div id="textBox"></div>
-  <div id="tapHint">Tocá la pantalla para avanzar</div>
+  <div id="welcome">Bienvenidos</div>
 </div>
-
-<script>
-const background = document.getElementById("background");
-const textBox = document.getElementById("textBox");
-
-let step = 0;
-let zoomed = false;
-
-const story = [
-  "Estás frente al Umbral.",
-  "La ciudad parece real... pero algo se siente distinto.",
-  "Cada paso que das, el mundo responde.",
-  "No todos se animan a cruzar.",
-  "¿Vos lo harías?"
-];
-
-function advanceStory() {
-  if (!zoomed) {
-    background.style.transform = "scale(1.15)";
-    zoomed = true;
-  } else {
-    background.style.transform = "scale(1)";
-    zoomed = false;
-  }
-
-  if (step < story.length) {
-    textBox.style.opacity = 0;
-    setTimeout(() => {
-      textBox.textContent = story[step];
-      textBox.style.opacity = 1;
-      step++;
-    }, 500);
-  }
-}
-
-document.body.addEventListener("click", advanceStory);
-document.body.addEventListener("touchstart", advanceStory);
-</script>
 
 </body>
 </html>
+
+
+
+
 
 
 
