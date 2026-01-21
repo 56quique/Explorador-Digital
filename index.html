@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Umbral Digital</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
@@ -34,11 +34,12 @@ html, body {
   transition: opacity 1s ease;
 }
 
-/* CONTENEDOR UI */
+/* UI */
 .ui {
   text-align: center;
-  width: 100%;
   max-width: 90%;
+  z-index: 10;
+  pointer-events: auto;
 }
 
 /* -------- PANTALLA 1 -------- */
@@ -47,7 +48,7 @@ html, body {
   background-size: cover;
 }
 
-/* TEXTO MAQUINA */
+/* TEXTO */
 #typeText {
   color: black;
   font-size: 2rem;
@@ -58,16 +59,16 @@ html, body {
 
 /* BOTÓN */
 #startBtn {
-  display: inline-block;
   padding: 12px 30px;
   font-size: 1.2rem;
   border: 2px solid black;
-  background: rgba(255,255,255,0.85);
+  background: rgba(255,255,255,0.9);
   color: black;
   cursor: pointer;
   opacity: 0;
   transform: scale(0.9);
   transition: all 0.4s ease;
+  pointer-events: auto;
 }
 
 #startBtn.show {
@@ -80,11 +81,13 @@ html, body {
   background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEijBaU25diZlbfUqDzqXtCy6ld0MWXmDhPSH68O4GS75r3mKJNN5dodr046mzzFNOG8Mk9CuNeWC936VPx3u0X-FRzHkhDvHBCKZXY0ftgTxUeMKPFvKuQ_Vf41Lio_c0XWJXY4C-kav7KNKTcuRepa_367eTQ0ApYHOtXWeRdMnEYmmVSMHSjWHVlSmJC3/s320/Texto%20del%20p%C3%A1rrafo%20(1).png") no-repeat center center;
   background-size: cover;
   opacity: 0;
+  pointer-events: none;
 }
 
-/* ZOOM SUAVE */
+/* ZOOM */
 .zoom {
   animation: zoomLoop 12s ease-in-out infinite;
+  pointer-events: auto;
 }
 
 @keyframes zoomLoop {
@@ -110,9 +113,7 @@ html, body {
   <div id="screen1" class="screen">
     <div class="ui">
       <div id="typeText"></div>
-      <div>
-        <button id="startBtn">Comenzar</button>
-      </div>
+      <button id="startBtn">Comenzar</button>
     </div>
   </div>
 
@@ -131,10 +132,10 @@ const button = document.getElementById("startBtn");
 const screen1 = document.getElementById("screen1");
 const screen2 = document.getElementById("screen2");
 
-/* MAQUINA DE ESCRIBIR */
+/* MAQUINA */
 function typeWriter() {
   if (i < text.length) {
-    target.innerHTML += text.charAt(i);
+    target.textContent += text.charAt(i);
     i++;
     setTimeout(typeWriter, speed);
   } else {
@@ -142,12 +143,16 @@ function typeWriter() {
   }
 }
 
-/* TRANSICIÓN FUNCIONAL */
+/* TRANSICIÓN SEGURA */
 button.addEventListener("click", () => {
+  console.log("Botón presionado");
   screen1.style.opacity = "0";
+  screen1.style.pointerEvents = "none";
+
   setTimeout(() => {
     screen1.style.display = "none";
     screen2.style.opacity = "1";
+    screen2.style.pointerEvents = "auto";
     screen2.classList.add("zoom");
   }, 1000);
 });
