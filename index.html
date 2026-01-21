@@ -38,10 +38,11 @@ html, body {
 .ui {
   text-align: center;
   max-width: 90%;
-  z-index: 10;
-  background: rgba(255,255,255,0.85);
+  z-index: 5;
+  background: rgba(255,255,255,0.88);
   padding: 25px;
   border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
 }
 
 /* -------- PANTALLA 1 -------- */
@@ -80,19 +81,35 @@ html, body {
 
 /* -------- PANTALLA 2 -------- */
 #screen2 {
-  background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEitFZ1ePvc2W5iAGi86PBfzgOfdhBUUq0TWFcTFYwSjRehw_00z3UL_PiZ1HSStfRvkLURbZGswSUpW5FQ1_wmwtMmQZw8jbZjrCSGSSVoc1Z831VSVVrqVzzHhX8_NREj3B1KC9iEwkAT1kyDvM-E_P16lgYn0DZPBuM5GJcPb0EtGKeu0XUMTxt8duUA1/s320/Pantalla2.png") 
-  no-repeat center center;
-  background-size: cover;
+  position: absolute;
+  inset: 0;
   opacity: 0;
   pointer-events: none;
-  filter: blur(4px) brightness(0.6);
 }
 
-/* ZOOM SUAVE */
-.zoom {
+/* FONDO BORROSO */
+#bg2 {
+  position: absolute;
+  inset: 0;
+  background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEijBaU25diZlbfUqDzqXtCy6ld0MWXmDhPSH68O4GS75r3mKJNN5dodr046mzzFNOG8Mk9CuNeWC936VPx3u0X-FRzHkhDvHBCKZXY0ftgTxUeMKPFvKuQ_Vf41Lio_c0XWJXY4C-kav7KNKTcuRepa_367eTQ0ApYHOtXWeRdMnEYmmVSMHSjWHVlSmJC3/s2560/Texto%20del%20p%C3%A1rrafo%20(1).png")
+    no-repeat center center;
+  background-size: cover;
+  filter: blur(6px) brightness(0.6);
+  z-index: 1;
+}
+
+/* ZOOM SOLO AL FONDO */
+.zoom #bg2 {
   animation: zoomLoop 12s ease-in-out infinite;
 }
 
+/* UI NÍTIDA ARRIBA */
+#screen2 .ui {
+  position: relative;
+  z-index: 5;
+}
+
+/* ANIMACIÓN ZOOM */
 @keyframes zoomLoop {
   0%   { transform: scale(1); }
   50%  { transform: scale(1.1); }
@@ -122,6 +139,7 @@ html, body {
 
   <!-- PANTALLA 2 -->
   <div id="screen2" class="screen">
+    <div id="bg2"></div>
     <div class="ui">
       <div id="typeText2"></div>
     </div>
@@ -138,11 +156,12 @@ const text2 =
 "Cada paso que des pondrá a prueba lo que creés saber.\n\n" +
 "Observá, explorá y avanzá.\nPorque no siempre la salida es el final…\nA veces, es solo el comienzo.";
 
-/* ELEMENTOS */
+/* VELOCIDAD */
 const speed = 45;
 let i = 0;
 let j = 0;
 
+/* ELEMENTOS */
 const t1 = document.getElementById("typeText");
 const t2 = document.getElementById("typeText2");
 const btn = document.getElementById("startBtn");
