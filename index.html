@@ -16,32 +16,41 @@ html, body {
   height: 100%;
   overflow: hidden;
   background: black;
+  font-family: 'Orbitron', sans-serif;
 }
 
-/* ESCENA */
-#scene {
-  position: fixed;
+/* CONTENEDOR GENERAL */
+#app {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* PANTALLAS */
+.screen {
+  position: absolute;
   inset: 0;
-  background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhAzqup03ju57-eyf6qxn_6jVJzGZCNqOrIKQw5bRQMftgKe2RX6SHM-iiLar-0RjKEUXaw1VC71RRx0PR7vNDQVGakJcmzsp4x3hKyG8mMBzt-ZVTckeX1Abv0oFQx673BiNEAu5OBKriCAK-TGK7LKrB8nD36FNwYHEAWQe_0RpFRuia3JeOxMqv6TYCT/s2560/Texto%20del%20p%C3%A1rrafo.png") no-repeat center center;
-  background-size: cover;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: opacity 1s ease;
 }
 
-/* CONTENEDOR TEXTO */
-#ui {
+/* -------- PANTALLA 1 -------- */
+#screen1 {
+  background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhAzqup03ju57-eyf6qxn_6jVJzGZCNqOrIKQw5bRQMftgKe2RX6SHM-iiLar-0RjKEUXaw1VC71RRx0PR7vNDQVGakJcmzsp4x3hKyG8mMBzt-ZVTckeX1Abv0oFQx673BiNEAu5OBKriCAK-TGK7LKrB8nD36FNwYHEAWQe_0RpFRuia3JeOxMqv6TYCT/s2560/Texto%20del%20p%C3%A1rrafo.png") no-repeat center center;
+  background-size: cover;
+  flex-direction: column;
+}
+
+/* TEXTO MAQUINA */
+#typeText {
+  color: black;
+  font-size: 2rem;
+  text-shadow: 0 0 8px rgba(255,255,255,0.7);
+  min-height: 120px;
   text-align: center;
   padding: 20px;
-}
-
-/* TEXTO MAQUINA DE ESCRIBIR */
-#typeText {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 2rem;
-  color: black;
-  text-shadow: 0 0 8px rgba(255,255,255,0.6);
-  min-height: 100px;
 }
 
 /* BOTÓN */
@@ -49,9 +58,8 @@ html, body {
   margin-top: 25px;
   padding: 12px 30px;
   font-size: 1.2rem;
-  font-family: 'Orbitron', sans-serif;
   border: 2px solid black;
-  background: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.8);
   color: black;
   cursor: pointer;
   opacity: 0;
@@ -64,8 +72,23 @@ html, body {
   transform: scale(1);
 }
 
-#startBtn:hover {
-  background: white;
+/* -------- PANTALLA 2 -------- */
+#screen2 {
+  background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEijBaU25diZlbfUqDzqXtCy6ld0MWXmDhPSH68O4GS75r3mKJNN5dodr046mzzFNOG8Mk9CuNeWC936VPx3u0X-FRzHkhDvHBCKZXY0ftgTxUeMKPFvKuQ_Vf41Lio_c0XWJXY4C-kav7KNKTcuRepa_367eTQ0ApYHOtXWeRdMnEYmmVSMHSjWHVlSmJC3/s320/Texto%20del%20p%C3%A1rrafo%20(1).png") no-repeat center center;
+  background-size: cover;
+  opacity: 0;
+}
+
+/* ZOOM SUAVE */
+#screen2.zoom {
+  animation: zoomLoop 12s ease-in-out infinite;
+}
+
+/* ANIMACIÓN ZOOM */
+@keyframes zoomLoop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
 /* RESPONSIVE */
@@ -79,21 +102,33 @@ html, body {
 
 <body>
 
-<div id="scene">
-  <div id="ui">
-    <div id="typeText"></div>
-    <button id="startBtn">Comenzar</button>
+<div id="app">
+
+  <!-- PANTALLA 1 -->
+  <div id="screen1" class="screen">
+    <div>
+      <div id="typeText"></div>
+      <button id="startBtn">Comenzar</button>
+    </div>
   </div>
+
+  <!-- PANTALLA 2 -->
+  <div id="screen2" class="screen"></div>
+
 </div>
 
 <script>
+/* TEXTO A ESCRIBIR */
 const text = "¡Bienvenido! ¿Estás listo para una aventura sin precedentes?";
-const speed = 50; // velocidad de escritura (ms por letra)
+const speed = 50;
 
 let i = 0;
 const target = document.getElementById("typeText");
 const button = document.getElementById("startBtn");
+const screen1 = document.getElementById("screen1");
+const screen2 = document.getElementById("screen2");
 
+/* MAQUINA DE ESCRIBIR */
 function typeWriter() {
   if (i < text.length) {
     target.innerHTML += text.charAt(i);
@@ -104,13 +139,18 @@ function typeWriter() {
   }
 }
 
+/* TRANSICIÓN A PANTALLA 2 */
+button.addEventListener("click", () => {
+  screen1.style.opacity = "0";
+  setTimeout(() => {
+    screen1.style.display = "none";
+    screen2.style.opacity = "1";
+    screen2.classList.add("zoom");
+  }, 1000);
+});
+
 typeWriter();
 </script>
 
 </body>
 </html>
-
-
-
-
-
