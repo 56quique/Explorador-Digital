@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Umbral Digital — v2</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+<title>Explorador Digital</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
 
@@ -13,61 +13,93 @@ html, body {
   padding: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden;
   background: black;
   font-family: 'Orbitron', sans-serif;
 }
 
-/* CONTENEDOR GENERAL */
 #app {
   position: fixed;
   inset: 0;
 }
 
-/* PANTALLAS */
+/* ---------------- PANTALLAS ---------------- */
 .screen {
   position: absolute;
   inset: 0;
   display: none;
   align-items: center;
   justify-content: center;
-  opacity: 0;
-  transition: opacity 0.8s ease;
 }
 
-/* UI BASE */
+/* ACTIVA */
+.screen.active {
+  display: flex;
+}
+
+/* UI */
 .ui {
   text-align: center;
-  max-width: 90%;
+  max-width: 85%;
   background: rgba(255,255,255,0.85);
   padding: 25px;
-  border-radius: 16px;
-  box-shadow: 0 0 30px rgba(0,0,0,0.5);
+  border-radius: 15px;
+}
+
+/* TEXTO */
+.textBox {
+  font-size: 1.6rem;
+  min-height: 120px;
+  margin-bottom: 20px;
+  line-height: 1.5em;
+  color: black;
 }
 
 /* BOTONES */
-button {
-  padding: 14px 36px;
-  font-size: 1.1rem;
+.btn {
+  padding: 12px 35px;
+  font-size: 1.2rem;
   border: 2px solid black;
   background: white;
   color: black;
   cursor: pointer;
-  border-radius: 10px;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
-/* TITULOS */
-h1 {
-  margin-top: 0;
-  font-size: 2rem;
+/* ---------------- FONDOS ---------------- */
+/* Acá ponés las imágenes de tu hijo */
+
+#screenIntro {
+  background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhAzqup03ju57-eyf6qxn_6jVJzGZCNqOrIKQw5bRQMftgKe2RX6SHM-iiLar-0RjKEUXaw1VC71RRx0PR7vNDQVGakJcmzsp4x3hKyG8mMBzt-ZVTckeX1Abv0oFQx673BiNEAu5OBKriCAK-TGK7LKrB8nD36FNwYHEAWQe_0RpFRuia3JeOxMqv6TYCT/s320/Texto%20del%20p%C3%A1rrafo.png") no-repeat center center;
+  background-size: cover;
 }
 
-/* RESPONSIVE */
-@media (max-width: 600px) {
-  h1 {
-    font-size: 1.6rem;
-  }
+#screenWelcome {
+  background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEitFZ1ePvc2W5iAGi86PBfzgOfdhBUUq0TWFcTFYwSjRehw_00z3UL_PiZ1HSStfRvkLURbZGswSUpW5FQ1_wmwtMmQZw8jbZjrCSGSSVoc1Z831VSVVrqVzzHhX8_NREj3B1KC9iEwkAT1kyDvM-E_P16lgYn0DZPBuM5GJcPb0EtGKeu0XUMTxt8duUA1/s320/Pantalla2.png") no-repeat center center;
+  background-size: cover;
+  filter: brightness(0.7);
+}
+
+#screenAvatar {
+  background: url("fondo_avatar.png") no-repeat center center;
+  background-size: cover;
+}
+
+#screenMap {
+  background: url("fondo_mapa.png") no-repeat center center;
+  background-size: cover;
+}
+
+#screenLevel {
+  background: url("fondo_nivel.png") no-repeat center center;
+  background-size: cover;
+}
+
+/* INPUT */
+input {
+  padding: 10px;
+  font-size: 1.1rem;
+  width: 80%;
+  margin-bottom: 15px;
 }
 </style>
 </head>
@@ -76,173 +108,132 @@ h1 {
 
 <div id="app">
 
-  <!-- PANTALLA INTRO -->
-  <div id="screenIntro" class="screen">
+  <!-- PANTALLA 1 - INTRO -->
+  <div id="screenIntro" class="screen active">
     <div class="ui">
-      <h1>Umbral Digital</h1>
-      <p>Presioná comenzar para iniciar la travesía</p>
-      <button id="btnIntro">Comenzar</button>
+      <div class="textBox">
+        Explorador Digital<br>
+        ¿Estás listo para cruzar el umbral?
+      </div>
+      <button class="btn" onclick="goTo('screenWelcome')">
+        Comenzar
+      </button>
     </div>
   </div>
 
-  <!-- PANTALLA BIENVENIDA -->
-  <div id="screenBienvenida" class="screen">
+  <!-- PANTALLA 2 - BIENVENIDA -->
+  <div id="screenWelcome" class="screen">
     <div class="ui">
-      <h1>El Umbral</h1>
-      <p id="textoBienvenida"></p>
-      <button id="btnBienvenida">Continuar</button>
+      <div id="welcomeText" class="textBox"></div>
+      <button class="btn" onclick="goTo('screenAvatar')">
+        Continuar
+      </button>
     </div>
   </div>
 
-  <!-- PANTALLA AVATAR -->
+  <!-- PANTALLA 3 - AVATAR -->
   <div id="screenAvatar" class="screen">
     <div class="ui">
-      <h1>Perfil del Explorador</h1>
-      <input id="nombreJugador" placeholder="Tu nombre" style="padding:10px;font-size:1rem;border-radius:8px;border:1px solid #333">
-      <div style="margin-top:15px;">
-        <button onclick="elegirTipo('Explorador')">Explorador</button>
-        <button onclick="elegirTipo('Guardián')">Guardián</button>
-        <button onclick="elegirTipo('Hacker')">Hacker</button>
+      <div class="textBox">
+        Elegí tu nombre de explorador
       </div>
-      <button id="btnAvatar">Guardar y continuar</button>
+      <input id="playerName" placeholder="Tu nombre..." />
+      <br>
+      <button class="btn" onclick="saveAvatar()">
+        Entrar al mapa
+      </button>
     </div>
   </div>
 
-  <!-- PANTALLA MAPA -->
-  <div id="screenMapa" class="screen">
+  <!-- PANTALLA 4 - MAPA -->
+  <div id="screenMap" class="screen">
     <div class="ui">
-      <h1>Mapa de Portales</h1>
-      <p>Elegí tu destino</p>
-      <button onclick="alert('Nivel 1 (próximamente)')">Portal 1</button>
-      <button onclick="alert('Nivel 2 (próximamente)')">Portal 2</button>
+      <div class="textBox">
+        Elegí un portal, <span id="nameDisplay"></span>
+      </div>
+      <button class="btn" onclick="goTo('screenLevel')">
+        Mundo 1
+      </button>
+    </div>
+  </div>
+
+  <!-- PANTALLA 5 - NIVEL -->
+  <div id="screenLevel" class="screen">
+    <div class="ui">
+      <div class="textBox">
+        Nivel 1<br>
+        Pronto aparecerán los desafíos...
+      </div>
+      <button class="btn" onclick="goTo('screenMap')">
+        Volver al mapa
+      </button>
     </div>
   </div>
 
 </div>
 
 <script>
-// ============================
-// GAME CONTROLLER (TU LOOP)
-// ============================
+/* ---------------- SISTEMA TIPO "VOID LOOP" ---------------- */
 
-const ESTADOS = {
-  INTRO: "intro",
-  BIENVENIDA: "bienvenida",
-  AVATAR: "avatar",
-  MAPA: "mapa"
-};
-
-let estadoActual = ESTADOS.INTRO;
-
-// Referencias
-const screens = {
-  intro: document.getElementById("screenIntro"),
-  bienvenida: document.getElementById("screenBienvenida"),
-  avatar: document.getElementById("screenAvatar"),
-  mapa: document.getElementById("screenMapa")
-};
-
-// ============================
-// CONTROL DE PANTALLAS
-// ============================
-
-function cambiarEstado(nuevo) {
-  console.log("Estado:", nuevo);
-  estadoActual = nuevo;
-
-  // Ocultar todo
-  Object.values(screens).forEach(s => {
-    s.style.display = "none";
-    s.style.opacity = "0";
-    s.style.pointerEvents = "none";
-  });
-
-  // Mostrar actual
-  const pantalla = screens[nuevo];
-  pantalla.style.display = "flex";
-
-  setTimeout(() => {
-    pantalla.style.opacity = "1";
-    pantalla.style.pointerEvents = "auto";
-  }, 50);
+function goTo(screenId) {
+  const screens = document.querySelectorAll(".screen");
+  screens.forEach(s => s.classList.remove("active"));
+  document.getElementById(screenId).classList.add("active");
 }
 
-// ============================
-// TEXTO BIENVENIDA
-// ============================
+/* ---------------- TEXTO BIENVENIDA ---------------- */
 
-const texto =
-"Estás cruzando un umbral.\n\n" +
-"Este mundo no se explora solo con los ojos, sino con las decisiones.\n" +
-"Cada portal es un desafío, cada respuesta un paso adelante.\n\n" +
-"Elegí con sabiduría. Avanzá con valentía.";
+const welcomeText =
+"Estás a punto de cruzar un umbral.\n\n" +
+"La ciudad se abre frente a vos como un mapa lleno de caminos y decisiones.\n\n" +
+"Cada paso pondrá a prueba lo que creés saber.\n\n" +
+"Explorá. Observá. Avanzá.\nPorque a veces, la salida no es el final...\nEs solo el comienzo.";
 
-let pos = 0;
+let i = 0;
 const speed = 40;
-const textoBox = document.getElementById("textoBienvenida");
+const textBox = document.getElementById("welcomeText");
 
-function escribirTexto() {
-  if (pos < texto.length) {
-    const char = texto.charAt(pos);
-    textoBox.innerHTML += char === "\n" ? "<br>" : char;
-    pos++;
-    setTimeout(escribirTexto, speed);
+function typeWelcome() {
+  if (i < welcomeText.length) {
+    const char = welcomeText.charAt(i);
+    textBox.innerHTML += char === "\n" ? "<br>" : char;
+    i++;
+    setTimeout(typeWelcome, speed);
   }
 }
 
-// ============================
-// AVATAR SIMPLE
-// ============================
+/* Detecta cuando entrás a la pantalla bienvenida */
+const observer = new MutationObserver(() => {
+  const welcomeScreen = document.getElementById("screenWelcome");
+  if (welcomeScreen.classList.contains("active")) {
+    textBox.innerHTML = "";
+    i = 0;
+    typeWelcome();
+  }
+});
 
-let tipoElegido = "Explorador";
+observer.observe(document.getElementById("app"), {
+  attributes: true,
+  subtree: true
+});
 
-function elegirTipo(tipo) {
-  tipoElegido = tipo;
-  alert("Elegiste: " + tipo);
+/* ---------------- AVATAR ---------------- */
+
+let player = {
+  name: ""
+};
+
+function saveAvatar() {
+  const input = document.getElementById("playerName");
+  if (input.value.trim() === "") {
+    alert("Elegí un nombre de explorador");
+    return;
+  }
+
+  player.name = input.value;
+  document.getElementById("nameDisplay").textContent = player.name;
+  goTo("screenMap");
 }
-
-function guardarJugador() {
-  const nombre = document.getElementById("nombreJugador").value || "Explorador";
-
-  const jugador = {
-    nombre: nombre,
-    tipo: tipoElegido,
-    nivel: 1,
-    vidas: 3
-  };
-
-  localStorage.setItem("jugador", JSON.stringify(jugador));
-  alert("Perfil guardado\n" + nombre + " — " + tipoElegido);
-
-  cambiarEstado(ESTADOS.MAPA);
-}
-
-// ============================
-// BOTONES
-// ============================
-
-document.getElementById("btnIntro").onclick = () => {
-  cambiarEstado(ESTADOS.BIENVENIDA);
-  textoBox.innerHTML = "";
-  pos = 0;
-  escribirTexto();
-};
-
-document.getElementById("btnBienvenida").onclick = () => {
-  cambiarEstado(ESTADOS.AVATAR);
-};
-
-document.getElementById("btnAvatar").onclick = () => {
-  guardarJugador();
-};
-
-// ============================
-// ARRANQUE
-// ============================
-
-window.onload = () => {
-  cambiarEstado(ESTADOS.INTRO);
-};
 </script>
 
 </body>
