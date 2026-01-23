@@ -115,6 +115,29 @@ input {
   width: 80%;
   margin-bottom: 15px;
 }
+  /* AVATAR TAG FUTURISTA */
+.avatarTag {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 8px 18px;
+  border: 2px solid cyan;
+  color: cyan;
+  background: rgba(0, 0, 0, 0.6);
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px cyan;
+}
+
+/* SELECT */
+select {
+  padding: 10px;
+  font-size: 1.1rem;
+  width: 85%;
+  margin-bottom: 15px;
+}
+
 </style>
 </head>
 
@@ -149,7 +172,37 @@ input {
   </div>
 
   <!-- PANTALLA 3 - AVATAR -->
-  <div id="screenAvatar" class="screen">
+  <!-- PANTALLA 3 - AVATAR -->
+<div id="screenAvatar" class="screen">
+
+  <!-- ETIQUETA FUTURISTA -->
+  <div class="avatarTag">AVATAR</div>
+
+  <div class="ui">
+    <div class="textBox">
+      Puesto de Identidad Digital<br>
+      Definí tu registro antes de cruzar el umbral
+    </div>
+
+    <input id="playerName" placeholder="Nombre de explorador..." />
+
+    <select id="playerProfile">
+      <option value="">Elegí tu perfil</option>
+      <option value="Observador">Observador</option>
+      <option value="Explorador">Explorador</option>
+      <option value="Constructor">Constructor</option>
+      <option value="Guardián">Guardián</option>
+    </select>
+
+    <input id="playerSkill" placeholder="Destacado en... (ej: resolver, guiar, crear)" />
+
+    <br>
+    <button class="btn" onclick="saveAvatar()">
+      Entrar al umbral
+    </button>
+  </div>
+</div>
+
     <div class="ui">
       <div class="textBox">
         Elegí tu nombre de explorador
@@ -249,9 +302,13 @@ observer.observe(document.getElementById("app"), {
 
 /* ---------------- AVATAR ---------------- */
 
-let player = {
-  name: ""
+
+  let player = {
+  name: "",
+  profile: "",
+  skill: ""
 };
+
 
 function saveAvatar() {
   const input = document.getElementById("playerName");
