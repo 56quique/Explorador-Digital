@@ -8,6 +8,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
 
 <style>
+  #fadeLayer {
+  position: fixed;
+  inset: 0;
+  background: black;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  z-index: 9999;
+}
+
+#fadeLayer.active {
+  opacity: 1;
+}
+
 html, body {
   margin: 0;
   padding: 0;
@@ -101,20 +115,6 @@ input {
   width: 80%;
   margin-bottom: 15px;
 }
-  #fadeLayer {
-  position: fixed;
-  inset: 0;
-  background: black;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease;
-  z-index: 9999;
-}
-
-#fadeLayer.active {
-  opacity: 1;
-}
-
 </style>
 </head>
 
@@ -193,9 +193,22 @@ input {
 /* ---------------- SISTEMA TIPO "VOID LOOP" ---------------- */
 
 function goTo(screenId) {
-  const screens = document.querySelectorAll(".screen");
-  screens.forEach(s => s.classList.remove("active"));
-  document.getElementById(screenId).classList.add("active");
+  const fade = document.getElementById("fadeLayer");
+
+  // Aparece el negro
+  fade.classList.add("active");
+
+  setTimeout(() => {
+    const screens = document.querySelectorAll(".screen");
+    screens.forEach(s => s.classList.remove("active"));
+    document.getElementById(screenId).classList.add("active");
+
+    // Desaparece el negro
+    setTimeout(() => {
+      fade.classList.remove("active");
+    }, 200);
+
+  }, 400);
 }
 
 /* ---------------- TEXTO BIENVENIDA ---------------- */
@@ -249,26 +262,7 @@ function saveAvatar() {
 
   player.name = input.value;
   document.getElementById("nameDisplay").textContent = player.name;
-  
-  function goTo(screenId) {
-  const fade = document.getElementById("fadeLayer");
-
-  // Aparece el negro
-  fade.classList.add("active");
-
-  setTimeout(() => {
-    const screens = document.querySelectorAll(".screen");
-    screens.forEach(s => s.classList.remove("active"));
-    document.getElementById(screenId).classList.add("active");
-
-    // Desaparece el negro
-    setTimeout(() => {
-      fade.classList.remove("active");
-    }, 200);
-
-  }, 400);
-}
-
+  goTo("screenMap");
 }
 </script>
 
