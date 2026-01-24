@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
 
 <style>
-  #fadeLayer {
+#fadeLayer {
   position: fixed;
   inset: 0;
   background: black;
@@ -45,12 +45,11 @@ html, body {
   justify-content: center;
 }
 
-/* ACTIVA */
 .screen.active {
   display: flex;
 }
 
-/* UI */
+/* UI GENERAL */
 .ui {
   text-align: center;
   max-width: 85%;
@@ -80,21 +79,22 @@ html, body {
 }
 
 /* ---------------- FONDOS ---------------- */
-/* Acá ponés las imágenes de tu hijo */
-
 #screenIntro {
-  background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhAzqup03ju57-eyf6qxn_6jVJzGZCNqOrIKQw5bRQMftgKe2RX6SHM-iiLar-0RjKEUXaw1VC71RRx0PR7vNDQVGakJcmzsp4x3hKyG8mMBzt-ZVTckeX1Abv0oFQx673BiNEAu5OBKriCAK-TGK7LKrB8nD36FNwYHEAWQe_0RpFRuia3JeOxMqv6TYCT/s320/Texto%20del%20p%C3%A1rrafo.png") no-repeat center center;
+  background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhAzqup03ju57-eyf6qxn_6jVJzGZCNqOrIKQw5bRQMftgKe2RX6SHM-iiLar-0RjKEUXaw1VC71RRx0PR7vNDQVGakJcmzsp4x3hKyG8mMBzt-ZVTckeX1Abv0oFQx673BiNEAu5OBKriCAK-TGK7LKrB8nD36FNwYHEAWQe_0RpFRuia3JeOxMqv6TYCT/s2560/Texto%20del%20p%C3%A1rrafo.png") 
+  no-repeat center center;
   background-size: cover;
 }
 
 #screenWelcome {
-  background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEitFZ1ePvc2W5iAGi86PBfzgOfdhBUUq0TWFcTFYwSjRehw_00z3UL_PiZ1HSStfRvkLURbZGswSUpW5FQ1_wmwtMmQZw8jbZjrCSGSSVoc1Z831VSVVrqVzzHhX8_NREj3B1KC9iEwkAT1kyDvM-E_P16lgYn0DZPBuM5GJcPb0EtGKeu0XUMTxt8duUA1/s320/Pantalla2.png") no-repeat center center;
+  background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEitFZ1ePvc2W5iAGi86PBfzgOfdhBUUq0TWFcTFYwSjRehw_00z3UL_PiZ1HSStfRvkLURbZGswSUpW5FQ1_wmwtMmQZw8jbZjrCSGSSVoc1Z831VSVVrqVzzHhX8_NREj3B1KC9iEwkAT1kyDvM-E_P16lgYn0DZPBuM5GJcPb0EtGKeu0XUMTxt8duUA1/s320/Pantalla2.png")
+  no-repeat center center;
   background-size: cover;
   filter: brightness(0.7);
 }
 
 #screenAvatar {
-  background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgRaKfebU7fL7VhijKfiZQEjcFRBIUfrJlFa-brJ89z4TgPCoW0YK3lzDAZ-Qu94ClAnKMo2ZIAsbWBgpco6fGZj5b0JXC7Aom1gKwh1ywmigEOxkPhU3Y2uKjgkphR6CD7VKw8lRnmvh6nZUoxH6ANdsIH6Id1EMm_9QgoQjpvqf7EZKerZcegIFSKe6cE/s320/Texto%20del%20p%C3%A1rrafo%20(3).png") no-repeat center center;
+  background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgRaKfebU7fL7VhijKfiZQEjcFRBIUfrJlFa-brJ89z4TgPCoW0YK3lzDAZ-Qu94ClAnKMo2ZIAsbWBgpco6fGZj5b0JXC7Aom1gKwh1ywmigEOxkPhU3Y2uKjgkphR6CD7VKw8lRnmvh6nZUoxH6ANdsIH6Id1EMm_9QgoQjpvqf7EZKerZcegIFSKe6cE/s320/Texto%20del%20p%C3%A1rrafo%20(3).png")
+  no-repeat center center;
   background-size: cover;
 }
 
@@ -108,14 +108,15 @@ html, body {
   background-size: cover;
 }
 
-/* INPUT */
-input {
+/* INPUTS */
+input, select {
   padding: 10px;
   font-size: 1.1rem;
-  width: 80%;
+  width: 85%;
   margin-bottom: 15px;
 }
-  /* AVATAR TAG FUTURISTA */
+
+/* AVATAR TAG */
 .avatarTag {
   position: absolute;
   top: 20px;
@@ -130,25 +131,19 @@ input {
   box-shadow: 0 0 10px cyan;
 }
 
-/* SELECT */
-select {
-  padding: 10px;
-  font-size: 1.1rem;
-  width: 85%;
-  margin-bottom: 15px;
+/* BAJAR CAJA DEL AVATAR */
+#screenAvatar .ui {
+  margin-top: 120px;
 }
-
 </style>
 </head>
 
 <body>
 
 <div id="app">
-  <!-- TRANSICIÓN NEGRA -->
-<div id="fadeLayer"></div>
+  <div id="fadeLayer"></div>
 
-
-  <!-- PANTALLA 1 - INTRO -->
+  <!-- INTRO -->
   <div id="screenIntro" class="screen active">
     <div class="ui">
       <div class="textBox">
@@ -161,7 +156,7 @@ select {
     </div>
   </div>
 
-  <!-- PANTALLA 2 - BIENVENIDA -->
+  <!-- BIENVENIDA -->
   <div id="screenWelcome" class="screen">
     <div class="ui">
       <div id="welcomeText" class="textBox"></div>
@@ -171,51 +166,35 @@ select {
     </div>
   </div>
 
-  <!-- PANTALLA 3 - AVATAR -->
-  <!-- PANTALLA 3 - AVATAR -->
-<div id="screenAvatar" class="screen">
-
-  <!-- ETIQUETA FUTURISTA -->
-  <div class="avatarTag">AVATAR</div>
-
-  <div class="ui">
-    <div class="textBox">
-      Puesto de Identidad Digital<br>
-      Definí tu registro antes de cruzar el umbral
-    </div>
-
-    <input id="playerName" placeholder="Nombre de explorador..." />
-
-    <select id="playerProfile">
-      <option value="">Elegí tu perfil</option>
-      <option value="Observador">Observador</option>
-      <option value="Explorador">Explorador</option>
-      <option value="Constructor">Constructor</option>
-      <option value="Guardián">Guardián</option>
-    </select>
-
-    <input id="playerSkill" placeholder="Destacado en... (ej: resolver, guiar, crear)" />
-
-    <br>
-    <button class="btn" onclick="saveAvatar()">
-      Entrar al umbral
-    </button>
-  </div>
-</div>
+  <!-- AVATAR -->
+  <div id="screenAvatar" class="screen">
+    <div class="avatarTag">AVATAR</div>
 
     <div class="ui">
       <div class="textBox">
-        Elegí tu nombre de explorador
+        Puesto de Identidad Digital<br>
+        Definí tu registro antes de cruzar el umbral
       </div>
-      <input id="playerName" placeholder="Tu nombre..." />
-      <br>
+
+      <input id="playerName" placeholder="Nombre de explorador..." />
+
+      <select id="playerProfile">
+        <option value="">Elegí tu perfil</option>
+        <option value="Observador">Observador</option>
+        <option value="Explorador">Explorador</option>
+        <option value="Constructor">Constructor</option>
+        <option value="Guardián">Guardián</option>
+      </select>
+
+      <input id="playerSkill" placeholder="Destacado en... (ej: resolver, guiar, crear)" />
+
       <button class="btn" onclick="saveAvatar()">
-        Entrar al mapa
+        Entrar al umbral
       </button>
     </div>
   </div>
 
-  <!-- PANTALLA 4 - MAPA -->
+  <!-- MAPA -->
   <div id="screenMap" class="screen">
     <div class="ui">
       <div class="textBox">
@@ -227,7 +206,7 @@ select {
     </div>
   </div>
 
-  <!-- PANTALLA 5 - NIVEL -->
+  <!-- NIVEL -->
   <div id="screenLevel" class="screen">
     <div class="ui">
       <div class="textBox">
@@ -239,33 +218,27 @@ select {
       </button>
     </div>
   </div>
-
 </div>
 
 <script>
-/* ---------------- SISTEMA TIPO "VOID LOOP" ---------------- */
-
+/* SISTEMA PRINCIPAL (TIPO VOID LOOP) */
 function goTo(screenId) {
   const fade = document.getElementById("fadeLayer");
-
-  // Aparece el negro
   fade.classList.add("active");
 
   setTimeout(() => {
-    const screens = document.querySelectorAll(".screen");
-    screens.forEach(s => s.classList.remove("active"));
+    document.querySelectorAll(".screen")
+      .forEach(s => s.classList.remove("active"));
+
     document.getElementById(screenId).classList.add("active");
 
-    // Desaparece el negro
     setTimeout(() => {
       fade.classList.remove("active");
     }, 200);
-
   }, 400);
 }
 
-/* ---------------- TEXTO BIENVENIDA ---------------- */
-
+/* TEXTO BIENVENIDA */
 const welcomeText =
 "Estás a punto de cruzar un umbral.\n\n" +
 "La ciudad se abre frente a vos como un mapa lleno de caminos y decisiones.\n\n" +
@@ -285,7 +258,7 @@ function typeWelcome() {
   }
 }
 
-/* Detecta cuando entrás a la pantalla bienvenida */
+/* Detecta pantalla bienvenida */
 const observer = new MutationObserver(() => {
   const welcomeScreen = document.getElementById("screenWelcome");
   if (welcomeScreen.classList.contains("active")) {
@@ -300,24 +273,27 @@ observer.observe(document.getElementById("app"), {
   subtree: true
 });
 
-/* ---------------- AVATAR ---------------- */
-
-
-  let player = {
+/* AVATAR DATA */
+let player = {
   name: "",
   profile: "",
   skill: ""
 };
 
-
 function saveAvatar() {
-  const input = document.getElementById("playerName");
-  if (input.value.trim() === "") {
-    alert("Elegí un nombre de explorador");
+  const name = document.getElementById("playerName").value.trim();
+  const profile = document.getElementById("playerProfile").value;
+  const skill = document.getElementById("playerSkill").value.trim();
+
+  if (!name || !profile || !skill) {
+    alert("Completá todos los campos del registro digital");
     return;
   }
 
-  player.name = input.value;
+  player.name = name;
+  player.profile = profile;
+  player.skill = skill;
+
   document.getElementById("nameDisplay").textContent = player.name;
   goTo("screenMap");
 }
