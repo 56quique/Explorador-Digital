@@ -195,6 +195,30 @@ input, select {
   50%  { transform: scale(1.15); }
   100% { transform: scale(1); }
 }
+/* AVATAR FLOTANTE */
+#floatingAvatar {
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160px;
+  z-index: 5;
+  animation: avatarFloat 6s ease-in-out infinite;
+  filter: drop-shadow(0 0 15px rgba(0,255,255,0.8));
+}
+
+/* FLOTAR + ZOOM */
+@keyframes avatarFloat {
+  0% {
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-15px) scale(1.1);
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+  }
+}
 
 </style>
 </head>
@@ -229,6 +253,7 @@ input, select {
 
   <!-- AVATAR -->
   <div id="screenAvatar" class="screen">
+    <img id="floatingAvatar" src="Vector_avatar.png" alt="Avatar">
     <div class="avatarTag">AVATAR</div>
 
     <div class="ui">
