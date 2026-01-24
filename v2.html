@@ -153,11 +153,16 @@ input, select {
 }
 
 
-.portals {
+
+  .portals {
   display: flex;
   gap: 30px;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+
+
 }
 
 .portal {
@@ -171,6 +176,7 @@ input, select {
   border: 3px solid rgba(255,255,255,0.8);
   box-shadow: 0 0 20px rgba(0,255,255,0.8);
   animation: floatPortal 6s ease-in-out infinite;
+  
 }
 
 .portal span {
