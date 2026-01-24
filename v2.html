@@ -135,6 +135,62 @@ input, select {
 #screenAvatar .ui {
   margin-top: 120px;
 }
+  /* -------- MAPA PORTALES -------- */
+.mapHeader {
+  position: absolute;
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 25px;
+  background: rgba(0,0,0,0.6);
+  color: cyan;
+  border: 2px solid cyan;
+  border-radius: 10px;
+  letter-spacing: 2px;
+  box-shadow: 0 0 12px cyan;
+  z-index: 10;
+}
+
+.portals {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.portal {
+  width: 140px;
+  height: 140px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  border: 3px solid rgba(255,255,255,0.8);
+  box-shadow: 0 0 20px rgba(0,255,255,0.8);
+  animation: floatPortal 6s ease-in-out infinite;
+}
+
+.portal span {
+  position: absolute;
+  bottom: -28px;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 0.9rem;
+}
+
+/* Zoom alternado */
+.portal:nth-child(1) { animation-delay: 0s; }
+.portal:nth-child(2) { animation-delay: 2s; }
+.portal:nth-child(3) { animation-delay: 4s; }
+
+@keyframes floatPortal {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
 </style>
 </head>
 
@@ -195,16 +251,57 @@ input, select {
   </div>
 
   <!-- MAPA -->
-  <div id="screenMap" class="screen">
-    <div class="ui">
-      <div class="textBox">
-        Elegí un portal, <span id="nameDisplay"></span>
-      </div>
-      <button class="btn" onclick="goTo('screenLevel')">
-        Mundo 1
-      </button>
+ <!-- MAPA -->
+<div id="screenMap" class="screen">
+
+  <div class="mapHeader">
+    Elegí un mundo, <span id="nameDisplay"></span>
+  </div>
+
+  <div class="portals">
+    <div class="portal" 
+      style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjgFp9iOhe364HsJ1LuXPn4F5B
+_7uQ67CSH1cdV0vlPgQGzAN14FdIVOC62oCwqX2p66iWqT0FiaX4sOvf2hZp6V-AA-lRMCU9i0oDziAxHCRaZ2sJuzNU0O06FResVv8LYSFVPNWUcT79k4aBupCHlkClDUKI98e9M5taFM_uE
+QAak7QaUzZaYZVS0-Qf/s320/da1a19709caf810c61a1dcd6d7a6b323-removebg-preview.png
+')" 
+      onclick="goTo('screenLevel')">
+      <span>Mundo 1</span>
+    </div>
+
+    <div class="portal" 
+      style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhuBifEk4Jij4dpdHTn2H3qcsQY
+n-RPuF4iPwOzGHL1muAWPyIehIF1yEVcggTcHFfxaNXcrIWy4rpF4Z5WFK_pks0u47wkg0Xbro44xYj6bD6OBPRYd_WMwTUC3Q0VphiWd5sBe5Lx81aPgfRj6LifKEOLn3GNIV_1XYqMplWyX5oole8XGnjOxNbSp/s320/photo-1701014159143-09482059f571removebg-preview.png
+')">
+      <span>Mundo 2</span>
+    </div>
+
+    <div class="portal" 
+      style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgNMyzeNPHe-
+RCUp4WuQ_rOXNcbNViSww3MLBpeXIUreRRthlFVf5p78oHwm19VhJMFCpRyxV805i6HLgDSFnCia36_fRQVujsBmC_J7wzZ3h
+vAKFv1YztxW04_dWb4WNoK5vrslsCS0BToCtpV9rjEyp-V_LL6i9kaZwWzN4JqutEOFihKBBiEuz6hOW/s320/117104418-solar-system-planet-mars-high-resolution-images-presentsplanets-of-the-solar-system-3d-removebg-preview.png
+')">
+      <span>Mundo 3</span>
+    </div>
+    <div class="portal" 
+      style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhzsmOvm1cpJNfixLzFKUyjlShp
+q-SDrA4VwVgtz5vuodTuSLGPbN0JhxIj61n56N2P6dcgY2-acI_w6f7yn73TloMP5YNrp7BAr1QFl74Zrn_Rv5225EjWzW9NYaAtq2OaZk49LThcw2K2Cn2AjCo6pIq4oAy87lEGpQ6fQcreZ4Dc7m
+WXcIImx6y2X1l/s320/hqdefault-removebg-preview.png
+
+')">
+      <span>Mundo 4</span>
+    </div>
+    <div class="portal" 
+      style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgyefloEMdl7W_8KfXT1X3zVz
+UBVaKXvVuqlj9B4LTn-IgbXnzTx40Pe4h4SxQX-FsK9NNvERxTBEkTrRIKEgQU3FPlalth9vW_r3_eLAehwJYWNntMj4exrLPkjNuyPxoHaEePQ_dHnVlEokqz1Pj1N3I6TvKZ7rVZrcliuD7IzlTWV7VmBqyzM4uiCW/s1600/images__12_-removebg-preview.png
+
+
+')">
+      <span>Mundo 5</span>
     </div>
   </div>
+
+</div>
+
 
   <!-- NIVEL -->
   <div id="screenLevel" class="screen">
