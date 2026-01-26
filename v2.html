@@ -136,28 +136,30 @@ input, select {
 }
 
 #screenAvatar .ui {
-  margin-top: 140px;
+  margin-top: 160px;
 }
 
 /* CONTENEDOR DE AVATARES */
 .avatarSelector {
   position: absolute;
-  top: 80px;
+  top: 90px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 40px;
+  gap: 60px;
   z-index: 5;
 }
 
 .avatarOption {
   width: 140px;
-  transition: all 0.5s ease;
+  transition: all 0.6s ease;
   opacity: 0.4;
 }
 
+/* AVATAR SELECCIONADO: ZOOM + CENTRO + SUBIR */
 .avatarOption.active {
-  transform: scale(1.2);
+  position: relative;
+  transform: translateY(-40px) scale(1.4);
   opacity: 1;
 }
 
@@ -217,15 +219,24 @@ input, select {
 
 /* =================== ENEMIGO =================== */
 .enemyAvatar {
-  width: 200px;
-  height: 200px;
-  border: 3px dashed red;
-  margin: 0 auto 20px auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: red;
-  font-size: 0.9rem;
+  width: 220px;
+  height: 220px;
+  margin: 0 auto 25px auto;
+  display: block;
+  border-radius: 50%;
+  padding: 10px;
+  background: radial-gradient(circle at center, #000 40%, #2a0033 60%, #400020 75%, #000 100%);
+  box-shadow:
+    0 0 20px rgba(80,0,120,0.8),
+    0 0 40px rgba(120,0,0,0.6),
+    inset 0 0 25px rgba(0,0,0,0.9);
+  animation: darkPulse 4s ease-in-out infinite;
+}
+
+@keyframes darkPulse {
+  0% { box-shadow: 0 0 20px rgba(80,0,120,0.8), 0 0 40px rgba(120,0,0,0.6), inset 0 0 25px rgba(0,0,0,0.9); }
+  50% { box-shadow: 0 0 30px rgba(120,0,180,1), 0 0 60px rgba(180,0,0,0.9), inset 0 0 35px rgba(0,0,0,1); }
+  100% { box-shadow: 0 0 20px rgba(80,0,120,0.8), 0 0 40px rgba(120,0,0,0.6), inset 0 0 25px rgba(0,0,0,0.9); }
 }
 </style>
 </head>
@@ -294,8 +305,7 @@ input, select {
   <!-- ENEMIGO -->
   <div id="screenEnemy" class="screen">
     <div class="ui">
-     <img src="Avatar_enemigo11.png" class="enemyAvatar">
- 
+      <img src="Avatar_enemigo11.png" class="enemyAvatar">
 
       <div class="textBox">
         Una presencia oscura observa desde las sombras...
