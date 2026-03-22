@@ -1,358 +1,154 @@
-<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html><html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-<title>Aportalipsis</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
-
-<style>
-/* =================== GENERAL =================== */
-#fadeLayer {
-  position: fixed;
-  inset: 0;
-  background: black;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease;
-  z-index: 9999;
-}
-#fadeLayer.active { opacity: 1; }
-
-html, body {
+<meta charset="UTF-8">
+<title>ATS - Panel SCADA</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- Chart.js --><script src="https://cdn.jsdelivr.net/npm/chart.js"></script><style>
+body {
   margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  background: black;
-  font-family: 'Orbitron', sans-serif;
+  font-family: "Segoe UI", Arial;
+  background: #0b1220;
+  color: #e5e7eb;
 }
 
-#app { position: fixed; inset: 0; }
-
-.screen {
-  position: absolute;
-  inset: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-}
-.screen.active { display: flex; }
-
-.ui {
+.header {
   text-align: center;
-  max-width: 85%;
-  background: rgba(255,255,255,0.88);
-  padding: 25px;
-  border-radius: 15px;
+  padding: 15px;
+  font-size: 20px;
+  color: #38bdf8;
 }
 
-.textBox {
-  font-size: 1.5rem;
-  min-height: 120px;
-  margin-bottom: 20px;
-  line-height: 1.5em;
-  color: black;
+.container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+  padding: 15px;
 }
 
-.btn {
-  padding: 12px 35px;
-  font-size: 1.2rem;
-  border: 2px solid black;
-  background: white;
-  color: black;
-  cursor: pointer;
-  margin-top: 10px;
+@media (min-width: 600px) {
+  .container { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* =================== FONDOS =================== */
-#screenIntro,
-#screenWelcome,
-#screenAvatar,
-#screenEnemy,
-#screenTransition,
-#screenAllies {
-  background: url("https://56quique.github.io/Explorador-Digital/Pantalla_fondo.png")
-  no-repeat center center;
-  background-size: cover;
-}
-
-#screenMap {
-  background: url("https://56quique.github.io/Explorador-Digital/Fondo_mundos.png")
-  no-repeat center center;
-  background-size: cover;
-}
-
-/* =================== AVATAR LOGIN =================== */
-.avatarSelector {
-  position: absolute;
-  top: 90px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 60px;
-  z-index: 5;
-}
-.avatarOption {
-  width: 140px;
-  transition: all 0.6s ease;
-  opacity: 0.4;
-}
-.avatarOption.active {
-  transform: translateY(-40px) scale(1.4);
-  opacity: 1;
-}
-
-/* =================== ENEMIGO =================== */
-.enemyAvatar {
-  width: 220px;
-  height: 220px;
-  margin: 0 auto 25px auto;
-  display: block;
-  border-radius: 50%;
-  padding: 10px;
-  background: radial-gradient(circle, #000 40%, #2a0033 60%, #400020 80%);
-  box-shadow: 0 0 30px rgba(120,0,180,1);
-}
-
-/* =================== ALIADOS =================== */
-.allyAvatar {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  margin-bottom: 20px;
-  box-shadow: 0 0 25px rgba(0,200,255,0.8);
-}
-
-/* =================== MAPA =================== */
-.mapHeader {
-  position: absolute;
-  top: 25px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 12px 30px;
-  background: rgba(0,0,0,0.75);
-  color: cyan;
-  border: 2px solid cyan;
+.card {
+  background: #111827;
+  padding: 15px;
   border-radius: 12px;
-  letter-spacing: 2px;
-  box-shadow: 0 0 15px cyan;
-  z-index: 20;
-}
-
-.portals {
-  display: flex;
-  gap: 30px;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  min-height: 60vh;
-}
-.portal {
-  width: 140px;
-  height: 140px;
-  background-size: cover;
-  background-position: center;
-  border-radius: 50%;
-  cursor: pointer;
-  border: 3px solid rgba(255,255,255,0.8);
-  box-shadow: 0 0 20px rgba(0,255,255,0.8);
-  animation: floatPortal 6s ease-in-out infinite;
-}
-.portal span {
-  position: absolute;
-  bottom: -28px;
-  width: 100%;
   text-align: center;
-  color: white;
-}
-@keyframes floatPortal {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.15); }
-  100% { transform: scale(1); }
-}
-</style>
-</head>
-
-<body>
-<div id="app">
-<div id="fadeLayer"></div>
-
-<!-- INTRO -->
-<div id="screenIntro" class="screen active">
-  <div class="ui">
-    <div class="textBox">
-      APORTALIPSIS<br>
-      ¿Estás listo para cruzar el umbral?
-    </div>
-    <button class="btn" onclick="goTo('screenWelcome')">Comenzar</button>
-  </div>
-</div>
-
-<!-- BIENVENIDA -->
-<div id="screenWelcome" class="screen">
-  <div class="ui">
-    <div class="textBox">
-      Este no es solo un juego.<br><br>
-      Es un viaje por mundos que se parecen mucho a los tuyos.<br>
-      Cada decisión deja una marca.<br><br>
-      Elegí con cuidado. Avanzá con valentía.
-    </div>
-    <button class="btn" onclick="goTo('screenAvatar')">Continuar</button>
-  </div>
-</div>
-
-<!-- AVATAR -->
-<div id="screenAvatar" class="screen">
-  <div class="avatarSelector">
-    <img id="avatarMale" class="avatarOption" src="Avatar_masculino11.png">
-    <img id="avatarFemale" class="avatarOption" src="Avatar_femenino11.png">
-  </div>
-
-  <div class="ui">
-    <div class="textBox">
-      Puesto de Identidad Digital<br>
-      Definí quién sos antes de entrar al sistema
-    </div>
-
-    <input id="playerName" placeholder="Nombre de explorador..." />
-    <select id="playerSex" onchange="selectSex()">
-      <option value="">Elegí tu sexo</option>
-      <option value="Masculino">Masculino</option>
-      <option value="Femenino">Femenino</option>
-    </select>
-    <select id="playerProfile">
-      <option value="">Elegí tu perfil</option>
-      <option>Observador</option>
-      <option>Explorador</option>
-      <option>Constructor</option>
-      <option>Guardián</option>
-    </select>
-    <input id="playerSkill" placeholder="Destacado en..." />
-    <button class="btn" onclick="saveAvatar()">Entrar al umbral</button>
-  </div>
-</div>
-
-<!-- TRANSICIÓN -->
-<div id="screenTransition" class="screen">
-  <div class="ui">
-    <div class="textBox">
-      Algo se mueve entre los mundos...<br><br>
-      No hace ruido.<br>
-      No deja huellas.<br><br>
-      Pero cada vez que dudás, se acerca un poco más.
-    </div>
-    <button class="btn" onclick="goTo('screenEnemy')">Avanzar</button>
-  </div>
-</div>
-
-<!-- ENEMIGO -->
-<div id="screenEnemy" class="screen">
-  <div class="ui">
-    <img src="Avatar_enemigo11.png" class="enemyAvatar">
-    <div class="textBox">
-      EL DESCONECTOR<br><br>
-      No viene a destruir mundos.<br>
-      Viene a vaciarlos por dentro.<br><br>
-      Susurra. Apura. Confunde.
-    </div>
-    <button class="btn" onclick="goTo('screenAllies')">Seguir</button>
-  </div>
-</div>
-
-<!-- ALIADOS -->
-<div id="screenAllies" class="screen">
-  <div class="ui">
-    <img id="allyImg" class="allyAvatar" src="Avatar_Dios.png">
-    <div id="allyText" class="textBox"></div>
-    <button class="btn" onclick="nextAlly()">Continuar</button>
-  </div>
-</div>
-
-<!-- MAPA -->
-<div id="screenMap" class="screen">
-  <div class="mapHeader">Elegí un mundo, <span id="nameDisplay"></span></div>
-  <div class="portals">
-    <div class="portal" style="background-image:url('Mundo11.png')" onclick="goTo('screenLevel')"><span>Mundo 1</span></div>
-    <div class="portal" style="background-image:url('Mundo12.png')" onclick="goTo('screenLevel')"><span>Mundo 2</span></div>
-    <div class="portal" style="background-image:url('Mundo13.png')" onclick="goTo('screenLevel')"><span>Mundo 3</span></div>
-    <div class="portal" style="background-image:url('Mundo14.png')" onclick="goTo('screenLevel')"><span>Mundo 4</span></div>
-    <div class="portal" style="background-image:url('Mundo15.png')" onclick="goTo('screenLevel')"><span>Mundo 5</span></div>
-  </div>
-</div>
-
-<!-- NIVEL -->
-<div id="screenLevel" class="screen">
-  <div class="ui">
-    <div class="textBox">
-      Nivel en construcción...<br>
-      El desafío comienza pronto.
-    </div>
-    <button class="btn" onclick="goTo('screenMap')">Volver</button>
-  </div>
-</div>
-
-</div>
-
-<script>
-function goTo(screenId) {
-  const fade = document.getElementById("fadeLayer");
-  fade.classList.add("active");
-
-  setTimeout(() => {
-    document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-    document.getElementById(screenId).classList.add("active");
-    setTimeout(() => fade.classList.remove("active"), 200);
-  }, 400);
 }
 
-let player = {};
+.status { font-size: 18px; font-weight: bold; }
 
-function selectSex() {
-  const sex = document.getElementById("playerSex").value;
-  document.getElementById("avatarMale").classList.remove("active");
-  document.getElementById("avatarFemale").classList.remove("active");
+.ok { color: #22c55e; }
+.fail { color: #ef4444; }
 
-  if (sex === "Masculino") document.getElementById("avatarMale").classList.add("active");
-  if (sex === "Femenino") document.getElementById("avatarFemale").classList.add("active");
+/* alarma */
+.alarm-box {
+  padding: 10px;
+  border-radius: 8px;
+  display: none;
 }
 
-function saveAvatar() {
-  const name = document.getElementById("playerName").value.trim();
-  if (!name) return alert("Completá tu nombre de explorador");
-  document.getElementById("nameDisplay").textContent = name;
-  goTo("screenTransition");
+.alarm-active {
+  display: block;
+  background: #7f1d1d;
+  color: #fecaca;
 }
 
-/* ALIADOS */
-const allies = [
-  {
-    img: "Avatar_Dios.png",
-    text: "EL CREADOR DEL CAMINO\n\nCuando no veas salida,\nÉl abre una ruta donde antes no existía."
+/* mediciones */
+.measure {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0;
+}
+
+.value {
+  color: #38bdf8;
+  font-weight: bold;
+}
+</style></head><body><div class="header">⚡ ATS - Monitoreo</div><div class="container">  <!-- ENERGÍA -->  <div class="card">
+    <h3>Energía</h3>
+    <p class="status ok">Red OK</p>
+    <p class="status fail">Grupo FALLA</p>
+  </div>  <!-- ALARMA -->  <div class="card">
+    <h3>Alarmas</h3>
+    <div id="alarm" class="alarm-box">Falla de arranque</div>
+  </div>  <!-- RED -->  <div class="card">
+    <h3>Tensión Red</h3>
+    <div class="measure">L1 <span id="r1" class="value">220</span></div>
+    <div class="measure">L2 <span id="r2" class="value">221</span></div>
+    <div class="measure">L3 <span id="r3" class="value">219</span></div>
+  </div>  <!-- GRUPO -->  <div class="card">
+    <h3>Tensión Grupo</h3>
+    <div class="measure">L1 <span id="g1" class="value">0</span></div>
+    <div class="measure">L2 <span id="g2" class="value">0</span></div>
+    <div class="measure">L3 <span id="g3" class="value">0</span></div>
+  </div>  <!-- GRÁFICO -->  <div class="card" style="grid-column: span 2;">
+    <h3>Histórico de Tensión (Red)</h3>
+    <canvas id="chart"></canvas>
+  </div></div><script>
+
+// -------- ALARMA --------
+let falla = true;
+function actualizarAlarma() {
+  const a = document.getElementById("alarm");
+  if (falla) a.classList.add("alarm-active");
+  else a.classList.remove("alarm-active");
+}
+actualizarAlarma();
+
+// -------- DATOS --------
+let dataL1 = [];
+let dataL2 = [];
+let dataL3 = [];
+let labels = [];
+
+// -------- GRÁFICO --------
+const ctx = document.getElementById("chart");
+
+const chart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: labels,
+    datasets: [
+      { label: 'L1', data: dataL1, borderColor: 'red' },
+      { label: 'L2', data: dataL2, borderColor: 'green' },
+      { label: 'L3', data: dataL3, borderColor: 'blue' }
+    ]
   },
-  {
-    img: "Avatar_Jesus1.png",
-    text: "EL RESTAURADOR\n\nCuando caigas,\nÉl no te deja atrás.\nTe levanta y te enseña a seguir."
-  },
-  {
-    img: "Avatar_EsSa.png",
-    text: "LA PRESENCIA VIVA\n\nNo grita.\nNo obliga.\nPero siempre susurra la verdad en tu interior."
+  options: {
+    responsive: true,
+    scales: {
+      y: { beginAtZero: false }
+    }
   }
-];
+});
 
-let allyIndex = 0;
-function nextAlly() {
-  allyIndex++;
-  if (allyIndex >= allies.length) {
-    goTo("screenMap");
-  } else {
-    document.getElementById("allyImg").src = allies[allyIndex].img;
-    document.getElementById("allyText").textContent = allies[allyIndex].text;
+// -------- SIMULACIÓN --------
+setInterval(() => {
+
+  let v1 = 220 + Math.random()*5;
+  let v2 = 220 + Math.random()*5;
+  let v3 = 220 + Math.random()*5;
+
+  document.getElementById("r1").innerText = v1.toFixed(0);
+  document.getElementById("r2").innerText = v2.toFixed(0);
+  document.getElementById("r3").innerText = v3.toFixed(0);
+
+  // actualizar arrays
+  if (labels.length > 20) {
+    labels.shift();
+    dataL1.shift();
+    dataL2.shift();
+    dataL3.shift();
   }
-}
 
-document.getElementById("allyText").textContent = allies[0].text;
-</script>
-</body>
+  labels.push("");
+  dataL1.push(v1);
+  dataL2.push(v2);
+  dataL3.push(v3);
+
+  chart.update();
+
+}, 2000);
+
+</script></body>
 </html>
